@@ -11,6 +11,7 @@ int dec = 10;
 int pairN = 5;
 int *pairs;
 int mode = 0;
+FILE* in;
 
 
 int
@@ -33,16 +34,25 @@ readArguments (int argc, char **argv)
       mode = 4;
     }
 
-  /*if (mode == 1)
-     {
-     //Tutaj wyszukiwanie flag dla loadmode
-     return 0;
-     }
-     To zostanie odkomentowane, kiedy napisze w środku potrzebne komendy
-     Tymczasowo, dla sprawdzenia poprawności danych, poniżej dodany jest warunek
-     || mode == 1 */
+  if (mode == 1){
+	  in = fopen(argv[2],"r");
+	  if(in == NULL){
+		  printf("Nie udało wczytać się pliku wejściowego!\n");
+		  return 1;
+	  }
+	  pairN = atoi(argv[3]);
+	  pairs = malloc (sizeof(int) * pairN * 2);
+	  for(int i=0; i<(pairN*2);i++){
+		  if((4+i) < argc)
+			  pairs[i] = atoi(argv[4+i]);
+		  else{
+			  printf("Błąd związany z ilością punktów!\n");
+			  return 1;
+		  }
+	  }
+  }
 
-  if (mode == 1 || mode == 2 || mode == 3 || mode == 4)
+  if (mode == 2 || mode == 3 || mode == 4)
     {
       for (int i = 2; i < argc - 1; i++)
 	{
@@ -166,11 +176,11 @@ main (int argc, char **argv)
       printf ("low = %g\n", low);
       printf ("high = %g\n", high);
       printf ("pairN = %d\n\n", pairN);
-      int intiger = 1;
+      int iterator = 1;
       for (int i = 0; i < (pairN * 2); i += 2)
 	{
-	  printf ("Para nr %d: %d %d\n", intiger, pairs[i], pairs[i + 1]);
-	  intiger++;
+	  printf ("Para nr %d: %d %d\n", iterator, pairs[i], pairs[i + 1]);
+	  iterator++;
 	}
       return 0;
     }
