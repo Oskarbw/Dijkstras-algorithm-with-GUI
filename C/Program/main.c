@@ -11,7 +11,8 @@ int dec = 10;
 int pairN = 5;
 int *pairs;
 int mode = 0;
-FILE* in;
+FILE *in;
+int generatePairs = 1;
 
 
 int
@@ -34,23 +35,27 @@ readArguments (int argc, char **argv)
       mode = 4;
     }
 
-  if (mode == 1){
-	  in = fopen(argv[2],"r");
-	  if(in == NULL){
-		  printf("Nie udało wczytać się pliku wejściowego!\n");
-		  return 1;
-	  }
-	  pairN = atoi(argv[3]);
-	  pairs = malloc (sizeof(int) * pairN * 2);
-	  for(int i=0; i<(pairN*2);i++){
-		  if((4+i) < argc)
-			  pairs[i] = atoi(argv[4+i]);
-		  else{
-			  printf("Błąd związany z ilością punktów!\n");
-			  return 1;
-		  }
-	  }
-  }
+  if (mode == 1)
+    {
+      in = fopen (argv[2], "r");
+      if (in == NULL)
+	{
+	  printf ("Nie udało wczytać się pliku wejściowego!\n");
+	  return 1;
+	}
+      pairN = atoi (argv[3]);
+      pairs = malloc (sizeof (int) * pairN * 2);
+      for (int i = 0; i < (pairN * 2); i++)
+	{
+	  if ((4 + i) < argc)
+	    pairs[i] = atoi (argv[4 + i]);
+	  else
+	    {
+	      printf ("Błąd związany z ilością punktów!\n");
+	      return 1;
+	    }
+	}
+    }
 
   if (mode == 2 || mode == 3 || mode == 4)
     {
@@ -124,6 +129,7 @@ readArguments (int argc, char **argv)
 		    ("Nie udało się wczytać ilości par, lub jest ona niepoprawna. Ustawiono wartość domyślną - 5 losowych par\n");
 		  continue;
 		}
+	      generatePairs = 0;
 	      pairs = malloc (sizeof (int) * atoi (argv[i + 1]) * 2);
 	      pairN = atoi (argv[i + 1]);
 	      for (int j = 0; j < (pairN * 2); j++)
@@ -167,6 +173,10 @@ readArguments (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
+  if(argc == 1){
+	  printf("Brak argumentów!\n");
+	  return 1;
+  }
   if (readArguments (argc, argv) == 0)
     {
       printf ("mode = %d\n", mode);
@@ -179,7 +189,8 @@ main (int argc, char **argv)
       int iterator = 1;
       for (int i = 0; i < (pairN * 2); i += 2)
 	{
-	  printf ("Para nr %d: %d %d\n", iterator, pairs[i], pairs[i + 1]);
+	  if(generatePairs == 0)
+		  printf ("Para nr %d: %d %d\n", iterator, pairs[i], pairs[i + 1]);
 	  iterator++;
 	}
       return 0;
