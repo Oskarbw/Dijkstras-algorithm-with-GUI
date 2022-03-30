@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "generator.h"
 
 int rows = 10;
 int columns = 10;
@@ -193,10 +193,19 @@ main (int argc, char **argv)
 		  printf ("Para nr %d: %d %d\n", iterator, pairs[i], pairs[i + 1]);
 	  iterator++;
 	}
-      return 0;
+      //return 0;
     }
   else
     {
       return 1;
     }
+	
+	if(mode==3){ //If mode is set to randWeightMode, then generate graph 
+		printf("tutego");
+		t_pair** graph = generateRandWeightMode(rows,columns,low,high,dec);
+		printGraph(graph, (rows*columns));
+		
+	}
+		
+	
 }
