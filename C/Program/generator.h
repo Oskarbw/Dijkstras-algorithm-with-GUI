@@ -14,5 +14,7 @@ typedef struct t_pair {
 void findNeighbours(t_pair** graph, int vertex, int rows, int cols, double minWeight, double maxWeight, int decimalDigits);
 void printGraph(t_pair** graph, int n);
 t_pair** generateRandWeightMode (int rows, int cols, double minWeight, double maxWeight, int decimalDigits);
-
+t_pair** generateAllRandMode (int rows, int cols, double minWeight, double maxWeight, int decimalDigits);
+t_pair** generateConMode (int rows, int cols, double minWeight, double maxWeight, int decimalDigits);
+	
 #endif

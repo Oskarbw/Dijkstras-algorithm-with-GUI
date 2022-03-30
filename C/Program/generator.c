@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "generator.h"
+#include "bfs.h"
 
 
 
@@ -87,10 +88,37 @@ int main(){
 }
 */
 
-//void generateAllRandMode(          ){
+t_pair** generateAllRandMode (int rows, int cols, double minWeight, double maxWeight, int decimalDigits){
+	t_pair** graph = generateRandWeightMode (rows, cols, minWeight, maxWeight, decimalDigits);
+	int n = rows*cols;
+	for (int i=0;i<n;i++){
+		for (int j=0;j<4;j++){
+			if (graph[i][j].vertex==-1) continue;
+			int chance = rand()%10;
+			if (chance>7){
+				graph[i][j].vertex=-1;
+			}
+				
+		}
+	}
+	
+	return graph;
+}
 	
 
 
-//void generateConMode();
-
-//void randomlyFindNeighbours();
+t_pair** generateConMode (int rows, int cols, double minWeight, double maxWeight, int decimalDigits){
+	t_pair** graph;
+	int wynik = 1;
+	do{
+		graph = generateAllRandMode(rows, cols, minWeight, maxWeight, decimalDigits);
+		wynik = 1;
+		for(int i=0;i<(rows*cols);i++){
+			wynik = BFS(graph,(rows*cols),i);
+			if (wynik==0) break;
+		}
+	}while(wynik==0);
+	
+	
+	return graph;
+}

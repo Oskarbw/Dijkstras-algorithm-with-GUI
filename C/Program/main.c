@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "generator.h"
+#include "bfs.h"
 
-int rows = 10;
-int columns = 10;
+int rows = 15;
+int columns = 15;
 double low = 0;
 double high = 1;
 int dec = 10;
@@ -173,6 +175,7 @@ readArguments (int argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	srand(time(NULL));
   if(argc == 1){
 	  printf("Brak argumentów!\n");
 	  return 1;
@@ -201,11 +204,43 @@ main (int argc, char **argv)
     }
 	
 	if(mode==3){ //If mode is set to randWeightMode, then generate graph 
-		printf("tutego");
+		
 		t_pair** graph = generateRandWeightMode(rows,columns,low,high,dec);
 		printGraph(graph, (rows*columns));
 		
 	}
+	
+	if(mode==2){ //If mode is set to allRandMode, then generate graph 
 		
+		t_pair** graph = generateAllRandMode(rows,columns,low,high,dec);
+		printGraph(graph, (rows*columns));
+		int wynik = 1;
+		for(int i=0;i<(rows*columns);i++){
+			wynik = BFS(graph,(rows*columns),i);
+			if (wynik==0) break;
+		}
+			
+		if(wynik==1){	
+			printf("\n\n Wynik dzialania BFSa: spojny\n");
+		} else{
+			printf("\n\n Wynik dzialania BFSa: niespojny\n");
+		}
+		
+	}
+		
+	if(mode==4){
+		t_pair** graph = generateConMode(rows,columns,low,high,dec);
+		printGraph(graph, (rows*columns));
+		int wynik = 1;
+		for(int i=0;i<(rows*columns);i++){
+			wynik = BFS(graph,(rows*columns),i);
+			if (wynik==0) break;
+		}
+		if(wynik==1){	
+			printf("\n\n Wynik dzialania BFSa: spojny\n");
+		} else{
+			printf("\n\n Wynik dzialania BFSa: niespojny\n");
+		}
+	}
 	
 }
