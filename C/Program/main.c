@@ -4,6 +4,7 @@
 #include <time.h>
 #include "generator.h"
 #include "bfs.h"
+#include "plik.h"
 
 int rows = 15;
 int columns = 15;
@@ -45,7 +46,13 @@ readArguments (int argc, char **argv)
 	  printf ("Nie udało wczytać się pliku wejściowego!\n");
 	  return 1;
 	}
-      pairN = atoi (argv[3]);
+      fclose(in);
+      if(argc < 4){
+		  printf("Nie podano ilości par!\n");
+		  return 1;
+	  }
+	  generatePairs = 0;
+	  pairN = atoi (argv[3]);
       pairs = malloc (sizeof (int) * pairN * 2);
       for (int i = 0; i < (pairN * 2); i++)
 	{
@@ -182,13 +189,15 @@ main (int argc, char **argv)
   }
   if (readArguments (argc, argv) == 0)
     {
-      printf ("mode = %d\n", mode);
-      printf ("rows = %d\n", rows);
-      printf ("columns = %d\n", columns);
-      printf ("dec = %d\n", dec);
-      printf ("low = %g\n", low);
-      printf ("high = %g\n", high);
-      printf ("pairN = %d\n\n", pairN);
+		if(mode != 1){
+			printf ("mode = %d\n", mode);
+			printf ("rows = %d\n", rows);
+			printf ("columns = %d\n", columns);
+			printf ("dec = %d\n", dec);
+			printf ("low = %g\n", low);
+			printf ("high = %g\n", high);
+			printf ("pairN = %d\n\n", pairN);
+		}
       int iterator = 1;
       for (int i = 0; i < (pairN * 2); i += 2)
 	{
@@ -202,7 +211,24 @@ main (int argc, char **argv)
     {
       return 1;
     }
-	
+
+	if(mode==1){ 
+		printf("\n");
+		t_pair** graph = readFile(argv[2],&rows,&columns);
+		printf("rows = %d\n columns = %d\n",rows,columns);
+		printGraph(graph, (rows*columns));
+		int wynik = 1;
+		for(int i=0; i < rows*columns; i++){
+			wynik = BFS(graph,(rows*columns),i);
+			if(wynik == 0) break;
+		}
+		if(wynik==1)
+			printf("\n\n WYnik dzialania BFSa: spojny\n");
+		else
+			printf("\b\b Wynik dzialania BFSa: niespojny\n");
+		return 0;
+	}
+
 	if(mode==3){ //If mode is set to randWeightMode, then generate graph 
 		
 		t_pair** graph = generateRandWeightMode(rows,columns,low,high,dec);
