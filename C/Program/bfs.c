@@ -3,7 +3,6 @@
 #include "generator.h"
 #include "bfs.h"
 
-
 void addToQueue(t_queue* queue, int vertex){
 	
 	queue->cells[queue->end] = vertex;
@@ -57,5 +56,25 @@ int BFS(t_pair** graph, int n,int startingVertex){
 		}
 	}
 	return haveAllVertexesBeenVisited;
-	
+}
+
+int isConst(t_pair** graph, int rows, int columns)
+{
+	int wynik = 1;
+	for(int i=0;i<(rows*columns);i++)
+	{
+		wynik = BFS(graph,(rows*columns),i);
+		if (wynik==0) break;
+	}
+			
+	if(wynik==1)
+	{	
+		printf("\n\n Wynik dzialania BFSa: spojny\n");
+		return 0;
+	} 
+	else
+	{
+		printf("\n\n Wynik dzialania BFSa: niespojny\n");
+		return 1;
+	}
 }
