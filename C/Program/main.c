@@ -6,6 +6,7 @@
 #include "bfs.h"
 #include "plik.h"
 
+
 int rows = 15;
 int columns = 15;
 double low = 0;
@@ -17,6 +18,7 @@ int mode = 0;
 FILE *in;
 int generatePairs = 1;
 
+void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols);
 
 int
 readArguments (int argc, char **argv)
@@ -233,6 +235,7 @@ main (int argc, char **argv)
 		
 		t_pair** graph = generateRandWeightMode(rows,columns,low,high,dec);
 		printGraph(graph, (rows*columns));
+		dijkstra(graph, pairN, pairs, rows, columns);
 		
 	}
 	
@@ -251,7 +254,7 @@ main (int argc, char **argv)
 		} else{
 			printf("\n\n Wynik dzialania BFSa: niespojny\n");
 		}
-		
+		dijkstra(graph, pairN, pairs, rows, columns);
 	}
 		
 	if(mode==4){
@@ -266,7 +269,9 @@ main (int argc, char **argv)
 			printf("\n\n Wynik dzialania BFSa: spojny\n");
 		} else{
 			printf("\n\n Wynik dzialania BFSa: niespojny\n");
-		}
+		
+		}	
+		dijkstra(graph, pairN, pairs, rows, columns);
 	}
 	
 }
