@@ -102,6 +102,7 @@ main (int argc, char **argv)
 	      t_pair **graph =
 		generateRandWeightMode (rows, columns, low, high, dec);
 	      printGraph (graph, (rows * columns));
+        printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
 
 	      return 0;
@@ -112,6 +113,7 @@ main (int argc, char **argv)
 	      t_pair **graph =
 		generateConMode (rows, columns, low, high, dec);
 	      printGraph (graph, (rows * columns));
+        printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
 
 	      return 0;
