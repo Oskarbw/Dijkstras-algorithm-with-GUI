@@ -6,11 +6,17 @@
 
 #define INFINITY 99999
 
-//int popFromPriorityQueue(int* priorityQueue);
+typedef struct tHeapQueue{
+	int* cells;
+	int end;
+} tHeapQueue;
 
-//void addToPriorityQueue(int* priorityQueue, double value);
 
-//int isPriorityQueueEmpty(int* priorityQueue);
+//int popFromHeapQueue(int* priorityQueue);
+
+//void addToHeapQueue(int* priorityQueue, double value);
+
+//int isHeapQueueEmpty(int* priorityQueue);
 
 
 void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
