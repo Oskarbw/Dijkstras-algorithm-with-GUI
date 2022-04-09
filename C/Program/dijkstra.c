@@ -5,18 +5,64 @@
 #include "plik.h"
 
 #define INFINITY 99999
-
+0 1 2 3 4 5 6 7 (8)  
 typedef struct tHeapQueue{
-	int* cells;
+	double* cells;
 	int end;
 } tHeapQueue;
 
+void heapifyDown(tHeapQueue* heapQueue){
+	int tmp = 0;
+	double tmpValue = 0;
+	heapQueue->cells[0] = heapQueue->cells[heapQueue->(end-1)];
+	heapQueue->end--;
+	while ((tmp*2)+1<(heapQueue->end)&&(heapQueue->cells[tmp]>heapQueue->cells[(tmp*2)+1]||heapQueue->cells[tmp]>heapQueue->cells[(tmp*2)+2])){
+		if(heapQueue->cells[(tmp*2)+1]<heapQueue->cells[(tmp*2)+2]){
+			tmpValue = heapQueue->cells[tmp];
+			heapQueue->cells[tmp] = heapQueue->cells[(tmp*2)+1];
+			heapQueue->cells[(tmp*2)+1] = tmpValue;
+			tmp = (tmp*2)+1;
+		}
+		else if ((tmp*2)+2<(heapQueue->end)){
+			tmpValue = heapQueue->cells[tmp];
+			heapQueue->cells[tmp]=heapQueue->cells[(tmp*2)+2];
+			heapQueue->cells[(tmp*2)+2] = tmpValue;
+			tmp = (tmp*2)+2;
+		}
+	}
+	
+}
+			
 
-//int popFromHeapQueue(int* priorityQueue);
+int popFromHeapQueue(tHeapQueue* heapQueue){
+	int result = heapQueue->cells[0];
+	heapifyDown(tHeapQueue* heapQueue);
+	
+	return result;
+}
+	
+void heapifyUp(tHeapQueue* heapQueue){
+	int tmp = heapQueue->end-1;
+	double tmpValue = 0;
+	while(tmp!=0&&heapQueue->cells[(tmp/2)]>heapQueue->cells[tmp]){
+		tmpValue = heapQueue->cells[tmp];
+		heapQueue->cells[tmp] = heapQueue->cells[tmp/2];
+		heapQueue->cells[tmp/2] = tmpValue;
+		tmp = tmp/2;
+	}
+}
 
-//void addToHeapQueue(int* priorityQueue, double value);
+void pushToHeapQueue(tHeapQueue* heapQueue, double value){
+	heapQueue->end++;
+	heapQueue->cells[end-1] = value;
+	heapifyUp(heapQueue);
+}
+	
 
-//int isHeapQueueEmpty(int* priorityQueue);
+int isHeapQueueEmpty(tHeapQueue* heapQueue){
+	if (heapQueue->end>0) return 0;
+	else return 1;
+}
 
 
 void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
