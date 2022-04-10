@@ -5,28 +5,28 @@
 #include "plik.h"
 
 #define INFINITY 99999
-0 1 2 3 4 5 6 7 (8)  
+
 typedef struct tHeapQueue{
-	double* cells;
+	int* cells;
 	int end;
 } tHeapQueue;
 
-void heapifyDown(tHeapQueue* heapQueue){
+void heapifyDown(tHeapQueue* heapQueue, double* sPath){
 	int tmp = 0;
-	double tmpValue = 0;
-	heapQueue->cells[0] = heapQueue->cells[heapQueue->(end-1)];
+	double tmpVertex = 0;
+	heapQueue->cells[0] = heapQueue->cells[heapQueue->end-1];
 	heapQueue->end--;
-	while ((tmp*2)+1<(heapQueue->end)&&(heapQueue->cells[tmp]>heapQueue->cells[(tmp*2)+1]||heapQueue->cells[tmp]>heapQueue->cells[(tmp*2)+2])){
-		if(heapQueue->cells[(tmp*2)+1]<heapQueue->cells[(tmp*2)+2]){
-			tmpValue = heapQueue->cells[tmp];
+	while ((tmp*2)+1<(heapQueue->end)&&(sPath[heapQueue->cells[tmp]]>sPath[heapQueue->cells[(tmp*2)+1]]||sPath[heapQueue->cells[tmp]]>sPath[heapQueue->cells[(tmp*2)+2]])){
+		if(sPath[heapQueue->cells[(tmp*2)+1]]<sPath[heapQueue->cells[(tmp*2)+2]]){
+			tmpVertex = heapQueue->cells[tmp];
 			heapQueue->cells[tmp] = heapQueue->cells[(tmp*2)+1];
-			heapQueue->cells[(tmp*2)+1] = tmpValue;
+			heapQueue->cells[(tmp*2)+1] = tmpVertex;
 			tmp = (tmp*2)+1;
 		}
 		else if ((tmp*2)+2<(heapQueue->end)){
-			tmpValue = heapQueue->cells[tmp];
+			tmpVertex = heapQueue->cells[tmp];
 			heapQueue->cells[tmp]=heapQueue->cells[(tmp*2)+2];
-			heapQueue->cells[(tmp*2)+2] = tmpValue;
+			heapQueue->cells[(tmp*2)+2] = tmpVertex;
 			tmp = (tmp*2)+2;
 		}
 	}
@@ -34,28 +34,28 @@ void heapifyDown(tHeapQueue* heapQueue){
 }
 			
 
-int popFromHeapQueue(tHeapQueue* heapQueue){
+int popFromHeapQueue(tHeapQueue* heapQueue, double* sPath){
 	int result = heapQueue->cells[0];
-	heapifyDown(tHeapQueue* heapQueue);
+	heapifyDown(heapQueue, sPath);
 	
 	return result;
 }
 	
-void heapifyUp(tHeapQueue* heapQueue){
+void heapifyUp(tHeapQueue* heapQueue, double* sPath){
 	int tmp = heapQueue->end-1;
-	double tmpValue = 0;
-	while(tmp!=0&&heapQueue->cells[(tmp/2)]>heapQueue->cells[tmp]){
-		tmpValue = heapQueue->cells[tmp];
+	double tmpVertex = 0;
+	while(tmp!=0&&sPath[heapQueue->cells[(tmp/2)]]>sPath[heapQueue->cells[tmp]]){
+		tmpVertex = heapQueue->cells[tmp];
 		heapQueue->cells[tmp] = heapQueue->cells[tmp/2];
-		heapQueue->cells[tmp/2] = tmpValue;
+		heapQueue->cells[tmp/2] = tmpVertex;
 		tmp = tmp/2;
 	}
 }
 
-void pushToHeapQueue(tHeapQueue* heapQueue, double value){
+void pushToHeapQueue(tHeapQueue* heapQueue, double* sPath, double vertex){
 	heapQueue->end++;
-	heapQueue->cells[end-1] = value;
-	heapifyUp(heapQueue);
+	heapQueue->cells[end-1] = vertex;
+	heapifyUp(heapQueue, sPath);
 }
 	
 
@@ -67,40 +67,37 @@ int isHeapQueueEmpty(tHeapQueue* heapQueue){
 
 void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
 	int n = rows*cols;
-	int* ancestor = malloc (sizeof(int) * n);
-	double* shortestPath = malloc (sizeof(double) * n);
+	int* ancestor = malloc(sizeof(int) * n);
+	double* sPath = malloc(sizeof(double) * n);
 	int* wasVisited = malloc(sizeof(int) * n);
 	double* results = malloc(sizeof(double) * pairN);
+	tHeapQueue heapQueue;
+	heapQueue->cells = malloc(sizeof(int) * n);
 	
 	for (int i=0;i<pairN;i++){
 		int start = pairs[i*2];
 		int destination = pairs[(i*2)+1];
 		
-		for (int j=0;j<n;j++) shortestPath[j] = INFINITY;
-		shortestPath[start] = 0;
+		for (int j=0;j<n;j++) sPath[j] = INFINITY;
+		sPath[start] = 0;
 		
 		for (int j=0;j<n;j++) ancestor[j] = -1;
 		for (int j=0;j<n;j++) wasVisited[j]=0;
 		
 		
-		double minimum = 0;
-		int currentVertex = start; 
+	
+		int currentVertex; 
+		pushToHeapQueue(heapQueue, sPath, start);
+		
 		for(int k=0;k<n;k++){
-			minimum = INFINITY;
-			for (int j=0;j<n;j++){
-				if (shortestPath[j]<minimum&&wasVisited[j]==0){
-					minimum = shortestPath[j];
-					currentVertex = j;
-				}
-			}
-			//printf("currentvertex: %d %g\n", currentVertex, minimum);
-			if(minimum == INFINITY) break;
+			currentVertex = popFromHeapQueue(heapQueue, sPath);
 			
 			for (int j=0;j<4;j++){
 				if(graph[currentVertex][j].vertex!=-1 &&
-				(graph[currentVertex][j].weight +shortestPath[currentVertex]<shortestPath[graph[currentVertex][j].vertex])){
-					shortestPath[graph[currentVertex][j].vertex] = graph[currentVertex][j].weight +shortestPath[currentVertex];
+				(graph[currentVertex][j].weight +sPath[currentVertex]<sPath[graph[currentVertex][j].vertex])){
+					sPath[graph[currentVertex][j].vertex] = graph[currentVertex][j].weight +sPath[currentVertex];
 					ancestor[graph[currentVertex][j].vertex] = currentVertex;
+					pushToHeapQueue(heapQueue, sPath, graph[currentVertex][j].vertex);
 				}
 			}
 			wasVisited[currentVertex]=1; 
@@ -112,7 +109,7 @@ void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
 			
 		
 		}
-		printf("Odleglosc %d do %d: %g\n",start,destination, shortestPath[destination]);
+		printf("Odleglosc %d do %d: %g\n",start,destination, sPath[destination]);
 	}
 }
 		
