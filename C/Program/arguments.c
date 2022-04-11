@@ -115,7 +115,7 @@ int readArgumentsRandMode (int argc, char **argv, int *rows, int *columns, doubl
                 printf ("Nie udało się wczytać ilości par, lub jest ona niepoprawna. Ustawiono wartość domyślną - 5 losowych par\n");
                 continue;
             }
-            generatePairs = 0;
+            *generatePairs = 0;
             *pairs = malloc (sizeof (int) * atoi (argv[i + 1]) * 2);
             *pairN = atoi (argv[i + 1]);
 

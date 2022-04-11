@@ -8,6 +8,8 @@
 #include "plik.h"
 #include "arguments.h"
 
+void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols);
+
 int
 main (int argc, char **argv)
 {
@@ -57,6 +59,7 @@ main (int argc, char **argv)
 	      t_pair **graph = readFile (argv[2], &rows, &columns);
 	      printGraph (graph, rows * columns);
 	      isConst (graph, rows, columns);
+		  dijkstra(graph, pairN, pairs, rows, columns);
 	      return 0;
 	    }
 	}
@@ -84,26 +87,27 @@ main (int argc, char **argv)
 	  for (int i = 0; i < pairN * 2; i += 2)
 	    {
 	      printf ("Para nr %d:  %d %d\n", num, pairs[i], pairs[i + 1]);
+		  num++;
 	    }
 
 	  if (mode == 2)
 	    {
-	      t_pair **graph =
-		generateAllRandMode (rows, columns, low, high, dec);
+	      t_pair **graph = generateAllRandMode (rows, columns, low, high, dec);
 	      printGraph (graph, (rows * columns));
 	      printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
-
+		  dijkstra(graph, pairN, pairs, rows, columns);
+			
 	      return 0;
 	    }
 
 	  if (mode == 3)
 	    {
-	      t_pair **graph =
-		generateRandWeightMode (rows, columns, low, high, dec);
+	      t_pair **graph = generateRandWeightMode (rows, columns, low, high, dec);
 	      printGraph (graph, (rows * columns));
         printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
+		  dijkstra(graph, pairN, pairs, rows, columns);
 		  
 
 	      return 0;
@@ -116,6 +120,7 @@ main (int argc, char **argv)
 	      printGraph (graph, (rows * columns));
         printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
+		  dijkstra(graph, pairN, pairs, rows, columns);
 
 	      return 0;
 	    }
