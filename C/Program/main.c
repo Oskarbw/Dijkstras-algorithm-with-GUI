@@ -104,11 +104,12 @@ main (int argc, char **argv)
 	      printGraph (graph, (rows * columns));
         printGraphToFile (graph, rows, columns);
 	      isConst (graph, rows, columns);
+		  
 
 	      return 0;
 	    }
 
-	  if (mode == 4)
+	  if (mode == 4) 
 	    {
 	      t_pair **graph =
 		generateConMode (rows, columns, low, high, dec);

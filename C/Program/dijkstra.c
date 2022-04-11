@@ -54,7 +54,7 @@ void heapifyUp(tHeapQueue* heapQueue, double* sPath){
 
 void pushToHeapQueue(tHeapQueue* heapQueue, double* sPath, double vertex){
 	heapQueue->end++;
-	heapQueue->cells[end-1] = vertex;
+	heapQueue->cells[heapQueue->end-1] = vertex;
 	heapifyUp(heapQueue, sPath);
 }
 	
@@ -71,7 +71,7 @@ void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
 	double* sPath = malloc(sizeof(double) * n);
 	int* wasVisited = malloc(sizeof(int) * n);
 	double* results = malloc(sizeof(double) * pairN);
-	tHeapQueue heapQueue;
+	tHeapQueue *heapQueue = malloc(sizeof(tHeapQueue));
 	heapQueue->cells = malloc(sizeof(int) * n);
 	
 	for (int i=0;i<pairN;i++){
@@ -85,10 +85,9 @@ void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols){
 		for (int j=0;j<n;j++) wasVisited[j]=0;
 		
 		
-	
-		int currentVertex; 
 		pushToHeapQueue(heapQueue, sPath, start);
 		
+		int currentVertex;
 		for(int k=0;k<n;k++){
 			currentVertex = popFromHeapQueue(heapQueue, sPath);
 			
