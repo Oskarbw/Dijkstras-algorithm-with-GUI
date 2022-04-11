@@ -1,23 +1,16 @@
-#ifndef GENERATOR_H
-#define GENERATOR_H
+#ifndef generatorH
+#define generatorH
 
 #include<stdlib.h>
 #include<stdio.h>
 #include <time.h>
-  typedef struct t_pair
-{
-  int vertex;
-   double weight;
- } t_pair;
-  void findNeighbours (t_pair ** graph, int vertex, int rows, int cols,
-			  double minWeight, double maxWeight,
-			  int decimalDigits);
-void printGraph (t_pair ** graph, int n);
-t_pair ** generateRandWeightMode (int rows, int cols, double minWeight,
-				   double maxWeight, int decimalDigits);
-t_pair ** generateAllRandMode (int rows, int cols, double minWeight,
-				double maxWeight, int decimalDigits);
-t_pair ** generateConMode (int rows, int cols, double minWeight,
-			    double maxWeight, int decimalDigits);
+  
+#define directions 4
+  typedef struct tPair
+{	int vertex;	double weight;} tPair;
+
+
+void findNeighbours (tPair ** graph, int vertex, int rows, int cols, double minWeight, double maxWeight);void printGraph (tPair ** graph, int n);
+tPair ** generateRandWeightMode (int rows, int cols, double minWeight, double maxWeight);tPair ** generateAllRandMode (int rows, int cols, double minWeight, double maxWeight);tPair ** generateConMode (int rows, int cols, double minWeight, double maxWeight);
  
-#endif	/*  */
+#endif	

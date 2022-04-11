@@ -3,13 +3,13 @@
 #include "generator.h"
 #include "bfs.h"
 
-void addToQueue (t_queue * queue, int vertex)
+void addToQueue (tQueue * queue, int vertex)
 {
     queue->cells[queue->end] = vertex;
     queue->end++;
 }
 
-int popFromQueue (t_queue * queue)
+int popFromQueue (tQueue * queue)
 {
     if (queue->start < queue->end)
     {
@@ -24,15 +24,14 @@ int popFromQueue (t_queue * queue)
 }
 
 
-int BFS (t_pair ** graph, int n, int startingVertex)
+int BFS (tPair ** graph, int n, int startingVertex)
 {
-    int *vertexState = malloc (n * (sizeof (int)));	//creating array that will keep information whether vertex has been visited
+    int *vertexState = malloc (n * (sizeof (int)));	
     for (int i = 0; i < n; i++)
     {
-        //initially all vertexes are unvisitied (vertexState=0)
         vertexState[i] = 0;
     }
-    t_queue * queue = malloc (sizeof (t_queue));
+    tQueue * queue = malloc (sizeof (tQueue));
     queue->cells = malloc ((n + 3) * (sizeof (int)));
     queue->start = 0;
     queue->end = 0;
@@ -42,7 +41,7 @@ int BFS (t_pair ** graph, int n, int startingVertex)
     while ((currentVertex = popFromQueue (queue)) != -2)
     {
         //while queue isn't empty
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < directions; j++)
         {
             if (vertexState[graph[currentVertex][j].vertex] == 0
                 && graph[currentVertex][j].vertex != -1)
@@ -67,7 +66,7 @@ int BFS (t_pair ** graph, int n, int startingVertex)
 }
 
 
-int isConst (t_pair ** graph, int rows, int columns)
+int isConst (tPair ** graph, int rows, int columns)
 {
     int wynik = 1;
 

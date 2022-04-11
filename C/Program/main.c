@@ -7,8 +7,8 @@
 #include "bfs.h"
 #include "plik.h"
 #include "arguments.h"
+#include "dijkstra.h"
 
-void dijkstra (t_pair** graph, int pairN, int* pairs, int rows , int cols);
 
 int
 main (int argc, char **argv)
@@ -16,14 +16,13 @@ main (int argc, char **argv)
   srand (time (NULL));
 
   int rows = 15;
-  int columns = 15;
+  int cols = 15;
   double low = 0;
   double high = 1;
   int pairN = 5;
   int *pairs;
   int mode;
   int generatePairs = 1;
-  int dec = 20;
 
   if (argc == 1)
     {
@@ -56,23 +55,22 @@ main (int argc, char **argv)
 		  printf ("Para nr %d:  %d %d\n", num, pairs[i],
 			  pairs[i + 1]);
 		}
-	      t_pair **graph = readFile (argv[2], &rows, &columns);
-	      printGraph (graph, rows * columns);
-	      isConst (graph, rows, columns);
-		  dijkstra(graph, pairN, pairs, rows, columns);
+	      tPair **graph = readFile (argv[2], &rows, &cols);
+	      printGraph (graph, rows * cols);
+	      isConst (graph, rows, cols);
+		  dijkstra(graph, pairN, pairs, rows, cols);
 	      return 0;
 	    }
 	}
 
       int result =
-	readArgumentsRandMode (argc, argv, &rows, &columns, &low, &high,
+	readArgumentsRandMode (argc, argv, &rows, &cols, &low, &high,
 			       &pairN, &pairs, &generatePairs);
       if (result == 0)
 	{
 	  printf ("mode = %d\n", mode);
 	  printf ("rows = %d\n", rows);
-	  printf ("columns = %d\n", columns);
-	  printf ("dec = %d\n", dec);
+	  printf ("cols = %d\n", cols);
 	  printf ("low = %g\n", low);
 	  printf ("high = %g\n", high);
 	  int num = 1;
@@ -80,7 +78,7 @@ main (int argc, char **argv)
 	    {
 	      for (int i = 0; i < 10; i++)
 		{
-		  pairs[i] = rand () % (rows * columns);
+		  pairs[i] = rand () % (rows * cols);
 		}
 	    }
 	  printf ("pairN = %d\n\n", pairN);
@@ -92,22 +90,22 @@ main (int argc, char **argv)
 
 	  if (mode == 2)
 	    {
-	      t_pair **graph = generateAllRandMode (rows, columns, low, high, dec);
-	      printGraph (graph, (rows * columns));
-	      printGraphToFile (graph, rows, columns);
-	      isConst (graph, rows, columns);
-		  dijkstra(graph, pairN, pairs, rows, columns);
+	      tPair **graph = generateAllRandMode (rows, cols, low, high);
+	      printGraph (graph, (rows * cols));
+	      printGraphToFile (graph, rows, cols);
+	      isConst (graph, rows, cols);
+		  dijkstra(graph, pairN, pairs, rows, cols);
 			
 	      return 0;
 	    }
 
 	  if (mode == 3)
 	    {
-	      t_pair **graph = generateRandWeightMode (rows, columns, low, high, dec);
-	      printGraph (graph, (rows * columns));
-        printGraphToFile (graph, rows, columns);
-	      isConst (graph, rows, columns);
-		  dijkstra(graph, pairN, pairs, rows, columns);
+	      tPair **graph = generateRandWeightMode (rows, cols, low, high);
+	      printGraph (graph, (rows * cols));
+        printGraphToFile (graph, rows, cols);
+	      isConst (graph, rows, cols);
+		  dijkstra(graph, pairN, pairs, rows, cols);
 		  
 
 	      return 0;
@@ -115,12 +113,12 @@ main (int argc, char **argv)
 
 	  if (mode == 4) 
 	    {
-	      t_pair **graph =
-		generateConMode (rows, columns, low, high, dec);
-	      printGraph (graph, (rows * columns));
-        printGraphToFile (graph, rows, columns);
-	      isConst (graph, rows, columns);
-		  dijkstra(graph, pairN, pairs, rows, columns);
+	      tPair **graph =
+		generateConMode (rows, cols, low, high);
+	      printGraph (graph, (rows * cols));
+        printGraphToFile (graph, rows, cols);
+	      isConst (graph, rows, cols);
+		  dijkstra(graph, pairN, pairs, rows, cols);
 
 	      return 0;
 	    }

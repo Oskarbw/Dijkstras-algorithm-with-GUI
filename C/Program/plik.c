@@ -4,7 +4,7 @@
 #include "generator.h"
 #include "plik.h"
 
-void printGraphToFile (t_pair ** graph, int rows, int cols)
+void printGraphToFile (tPair ** graph, int rows, int cols)
 {
     int n = rows * cols;
     char *path = "graph";
@@ -20,7 +20,7 @@ void printGraphToFile (t_pair ** graph, int rows, int cols)
     {
         fprintf (out, "	 ");
 
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < directions; j++)
         {
             if (graph[i][j].vertex == -1)
                 continue;
@@ -30,20 +30,20 @@ void printGraphToFile (t_pair ** graph, int rows, int cols)
     }
 }
 
-t_pair ** readFile (char *path, int *rows, int *cols)
+tPair ** readFile (char *path, int *rows, int *cols)
 {
-    t_pair ** graph;
+    tPair ** graph;
     FILE * in = fopen (path, "r");
     fscanf (in, "%d %d", rows, cols);
-    graph = malloc ((*rows) * (*cols) * (sizeof (t_pair *)));
+    graph = malloc ((*rows) * (*cols) * (sizeof (tPair *)));
     for (int i = 0; i < (*rows) * (*cols); i++)
     {
-        graph[i] = malloc (sizeof (t_pair) * 4);
+        graph[i] = malloc (sizeof (tPair) * directions);
     }
 
     for (int i = 0; i < (*rows) * (*cols); i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < directions; j++)
         {
             graph[i][j].vertex = -1;
         }

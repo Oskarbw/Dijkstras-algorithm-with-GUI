@@ -60,7 +60,7 @@ int readArgumentsLoadMode (int argc, char **argv, int *pairN, int **pairs, int *
 }
 
 
-int readArgumentsRandMode (int argc, char **argv, int *rows, int *columns, double *low, double *high, int *pairN, int **pairs, int *generatePairs)
+int readArgumentsRandMode (int argc, char **argv, int *rows, int *cols, double *low, double *high, int *pairN, int **pairs, int *generatePairs)
 {
     for (int i = 2; i < argc - 1; i++)
     {
@@ -83,7 +83,7 @@ int readArgumentsRandMode (int argc, char **argv, int *rows, int *columns, doubl
                 printf ("Nie udało się wczytać liczby kolumn, lub jest ona niepoprawna. Ustawiono wartość domyślną - 15\n");
                 continue;
             }
-            *columns = atoi (argv[i + 1]);
+            *cols = atoi (argv[i + 1]);
             continue;
         }
 
