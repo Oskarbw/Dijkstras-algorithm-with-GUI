@@ -60,9 +60,9 @@ int readArgumentsLoadMode (int argc, char **argv, int *pairN, int **pairs, int *
 }
 
 
-int readArgumentsRandMode (int argc, char **argv, int *rows, int *cols, double *low, double *high, int *pairN, int **pairs, int *generatePairs)
+int readArgumentsRandMode (int argc, char **argv, int *rows, int *cols, double *low, double *high, int *pairN, int **pairs, int *generatePairs, int *doSave)
 {
-    for (int i = 2; i < argc - 1; i++)
+    for (int i = 2; i < argc; i++)
     {
         if (strcmp (argv[i], "-r") == 0)
         {
@@ -103,11 +103,18 @@ int readArgumentsRandMode (int argc, char **argv, int *rows, int *cols, double *
 
 
         if (strcmp (argv[i], "-high") == 0)
-
         {
             *high = atoi (argv[i + 1]);
             continue;
         }
+		
+		if (strcmp (argv[i], "-s") == 0)
+        {
+			printf("ZAPISZAPISZAPISPZIAPZIAPZIAPZIAPZIAPZIAPZIPAZIPAZIPAZIPAZIPAZIPAZI\n\n\n");
+            *doSave = 1;
+            continue;
+        }
+		
         if (strcmp (argv[i], "-p") == 0)
         {
             if (atoi (argv[i + 1]) < 0)

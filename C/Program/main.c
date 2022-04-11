@@ -23,7 +23,7 @@ main (int argc, char **argv)
   int *pairs;
   int mode;
   int generatePairs = 1;
-
+  int doSave = 0;
   if (argc == 1)
     {
       printf ("Niewłaściwa liczba argumentów!\n");
@@ -65,7 +65,7 @@ main (int argc, char **argv)
 
       int result =
 	readArgumentsRandMode (argc, argv, &rows, &cols, &low, &high,
-			       &pairN, &pairs, &generatePairs);
+			       &pairN, &pairs, &generatePairs, &doSave);
       if (result == 0)
 	{
 	  printf ("mode = %d\n", mode);
@@ -92,7 +92,8 @@ main (int argc, char **argv)
 	    {
 	      tPair **graph = generateAllRandMode (rows, cols, low, high);
 	      printGraph (graph, (rows * cols));
-	      printGraphToFile (graph, rows, cols);
+	      if(doSave==1)
+			  printGraphToFile (graph, rows, cols);
 	      isConst (graph, rows, cols);
 		  dijkstra(graph, pairN, pairs, rows, cols);
 			
@@ -103,7 +104,8 @@ main (int argc, char **argv)
 	    {
 	      tPair **graph = generateRandWeightMode (rows, cols, low, high);
 	      printGraph (graph, (rows * cols));
-        printGraphToFile (graph, rows, cols);
+          if(doSave==1)
+			  printGraphToFile (graph, rows, cols);
 	      isConst (graph, rows, cols);
 		  dijkstra(graph, pairN, pairs, rows, cols);
 		  
@@ -113,10 +115,10 @@ main (int argc, char **argv)
 
 	  if (mode == 4) 
 	    {
-	      tPair **graph =
-		generateConMode (rows, cols, low, high);
+	      tPair **graph = generateConMode (rows, cols, low, high);
 	      printGraph (graph, (rows * cols));
-        printGraphToFile (graph, rows, cols);
+          if(doSave==1)
+			  printGraphToFile (graph, rows, cols);
 	      isConst (graph, rows, cols);
 		  dijkstra(graph, pairN, pairs, rows, cols);
 

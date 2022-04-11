@@ -12,7 +12,7 @@ void printGraphToFile (tPair ** graph, int rows, int cols)
     time_t t = time (NULL);
     struct tm tm = *localtime (&t);
     sprintf (date, "graph_%d-%02d-%02d_%02d:%02d:%02d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-    printf ("TEST: %s\n", date);
+    printf ("Zapisano graf do pliku: %s\n", date);
     FILE * out = fopen (date, "w");
     fprintf (out, "%d %d\n", rows, cols);
 

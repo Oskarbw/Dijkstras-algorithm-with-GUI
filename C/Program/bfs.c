@@ -78,13 +78,13 @@ int isConst (tPair ** graph, int rows, int columns)
 
     if (wynik == 1)
     {
-        printf ("\n\n Wynik dzialania BFSa: spojny\n");
+        printf ("\n\nWynik dzialania BFSa: spojny\n\n");
         return 0;
     }
 
     else
     {
-        printf ("\n\n Wynik dzialania BFSa: niespojny\n");
+        printf ("\n\nWynik dzialania BFSa: niespojny\n\n");
         return 1;
     }
 }
