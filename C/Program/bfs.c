@@ -3,13 +3,13 @@
 #include "generator.h"
 #include "bfs.h"
 
-void addToQueue (tQueue * queue, int vertex)
+void addToQueue(tQueue* queue, int vertex)
 {
     queue->cells[queue->end] = vertex;
     queue->end++;
 }
 
-int popFromQueue (tQueue * queue)
+int popFromQueue(tQueue* queue)
 {
     if (queue->start < queue->end)
     {
@@ -24,41 +24,41 @@ int popFromQueue (tQueue * queue)
 }
 
 
-int BFS (tPair ** graph, int n, int startingVertex)
+int BFS(tPair** graph, int n, int startingVertex)
 {
-    int *vertexState = malloc (n * (sizeof (int)));	
+    int* vertexState = malloc(n * (sizeof(int)));
     for (int i = 0; i < n; i++)
     {
         vertexState[i] = 0;
     }
-    tQueue * queue = malloc (sizeof (tQueue));
-    queue->cells = malloc ((n + 3) * (sizeof (int)));
+    tQueue* queue = malloc(sizeof(tQueue));
+    queue->cells = malloc((n + 3) * (sizeof(int)));
     queue->start = 0;
     queue->end = 0;
 
-    addToQueue (queue, startingVertex);
+    addToQueue(queue, startingVertex);
     int currentVertex;
-    while ((currentVertex = popFromQueue (queue)) != -2)
+    while ((currentVertex = popFromQueue(queue)) != -2)
     {
-        //while queue isn't empty
+        // while queue isn't empty
         for (int j = 0; j < directions; j++)
         {
             if (vertexState[graph[currentVertex][j].vertex] == 0
                 && graph[currentVertex][j].vertex != -1)
             {
-                addToQueue (queue, graph[currentVertex][j].vertex);
-                vertexState[graph[currentVertex][j].vertex] = 1;	//1 - added to queue
+                addToQueue(queue, graph[currentVertex][j].vertex);
+                vertexState[graph[currentVertex][j].vertex] = 1; // 1 - added to queue
             }
         }
-        vertexState[currentVertex] = 2;	//visited
+        vertexState[currentVertex] = 2; // visited
     }
 
-    int haveAllVertexesBeenVisited = 1;	//1 - they have
+    int haveAllVertexesBeenVisited = 1; // 1 - they have
     for (int i = 0; i < n; i++)
     {
         if (vertexState[i] != 2)
         {
-            haveAllVertexesBeenVisited = 0;	//0 - they haven't
+            haveAllVertexesBeenVisited = 0; // 0 - they haven't
             break;
         }
     }
@@ -66,25 +66,26 @@ int BFS (tPair ** graph, int n, int startingVertex)
 }
 
 
-int isConst (tPair ** graph, int rows, int columns)
+int isConst(tPair** graph, int rows, int columns)
 {
     int wynik = 1;
 
     for (int i = 0; i < (rows * columns); i++)
     {
-        wynik = BFS (graph, (rows * columns), i);
-        if (wynik == 0) break;
+        wynik = BFS(graph, (rows * columns), i);
+        if (wynik == 0)
+            break;
     }
 
     if (wynik == 1)
     {
-        printf ("\n\nWynik dzialania BFSa: spojny\n\n");
+        printf("\n\nWynik dzialania BFSa: spojny\n\n");
         return 0;
     }
 
     else
     {
-        printf ("\n\nWynik dzialania BFSa: niespojny\n\n");
+        printf("\n\nWynik dzialania BFSa: niespojny\n\n");
         return 1;
     }
 }
