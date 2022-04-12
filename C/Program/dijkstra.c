@@ -96,29 +96,9 @@ void printPath(tPair** graph, int* ancestor, int destination, int* path)
     printf("\n\n");
 }
 
-void printPathNoWeights(tPair** graph, int* ancestor, int destination, int* path)
-{
-    int tmp = destination;
-    path[0] = tmp;
-    int i = 1;
-   
-    while(ancestor[tmp]!=-1)
-    {
-        path[i] = ancestor[tmp];
-        i++;
-        tmp = ancestor[tmp];
-    }
-    printf("Sciezka: %d", path[i-1]);
-    for (int j = i-2; j>=0; j--)
-    {
-       
-        printf(" --> %d", path[j]);
-    }
-    printf("\n\n");
-}
 
 
-void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols, int doPrintWeights)
+void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols)
 {
     int n = rows*cols;
     int* ancestor = malloc(sizeof(int) * n);
@@ -170,15 +150,8 @@ void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols, int doP
         }
         printf("Odleglosc %d do %d: %g\n",start,destination, pathLength[destination]);
         if(pathLength[destination]!=infinity)
-            if (doPrintWeights)
-				printPath(graph, ancestor, destination, path);
-			else
-				printPathNoWeights(graph, ancestor, destination, path);
+            printPath(graph, ancestor, destination, path);
         else
             printf("Sciezka nie istnieje!\n\n");
     }
 }
-
-
-
-
