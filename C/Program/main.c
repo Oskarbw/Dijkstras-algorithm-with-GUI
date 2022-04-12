@@ -18,11 +18,12 @@ int main(int argc, char** argv)
     double low = 0;
     double high = 1;
     int pairN = 5;
-    int* pairs;
+    int* pairs = NULL;
     int mode;
     int generatePairs = 1;
     int doSave = 0;
-	int doPrintWeights = 1;
+    int doPrintWeights = 1;
+    int showGraph = 0;
 	
     if (argc == 1)
     {
@@ -67,7 +68,7 @@ int main(int argc, char** argv)
         }
 
         int result = readArgumentsRandMode(
-            argc, argv, &rows, &cols, &low, &high, &pairN, &pairs, &generatePairs, &doSave, &doPrintWeights);
+            argc, argv, &rows, &cols, &low, &high, &pairN, &pairs, &generatePairs, &doSave, &doPrintWeights, &showGraph);
         if (result == 0)
         {
             printf("Parametry opisujące graf:\n");
@@ -79,6 +80,7 @@ int main(int argc, char** argv)
             if (generatePairs == 1)
             {
                 printf("\nLosowo wygenerowano 5 par:\n");
+		pairs = malloc(sizeof(int) * 10);
                 for (int i = 0; i < 10; i++)
                 {
                     pairs[i] = rand() % (rows * cols);
@@ -96,43 +98,44 @@ int main(int argc, char** argv)
                 num++;
             }
             
-            printf("\nGraf:\n\n");
+
+
+	    tPair** graph;
 
             if (mode == 2)
             {
-                tPair** graph = generateAllRandMode(rows, cols, low, high);
-                printGraph(graph, (rows * cols));
-                if (doSave == 1)
-                    printGraphToFile(graph, rows, cols);
-                isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
-
-                return 0;
+                graph = generateAllRandMode(rows, cols, low, high);
             }
 
             if (mode == 3)
             {
-                tPair** graph = generateRandWeightMode(rows, cols, low, high);
-                printGraph(graph, (rows * cols));
-                if (doSave == 1)
-                    printGraphToFile(graph, rows, cols);
-                isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
-
-                return 0;
+                graph = generateRandWeightMode(rows, cols, low, high);
             }
 
             if (mode == 4)
             {
-                tPair** graph = generateConMode(rows, cols, low, high);
-                printGraph(graph, (rows * cols));
-                if (doSave == 1)
-                    printGraphToFile(graph, rows, cols);
-                isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
+                graph = generateConMode(rows, cols, low, high);
+	    }
 
-                return 0;
-            }
+	    if (showGraph == 1)
+	    {
+            	printf("\nGraf:\n\n");
+            	printGraph(graph, (rows * cols));
+	    }
+            if (doSave == 1)
+                printGraphToFile(graph, rows, cols);
+	    isConst(graph, rows, cols);
+            dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
+	    for(int i=0; i<rows*cols; i++)
+            {
+		free(graph[i]);
+	    }
+
+	    free(graph);
+	    free(pairs);
+
+            return 0;
+            
         }
     }
 }

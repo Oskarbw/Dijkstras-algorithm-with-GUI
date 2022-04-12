@@ -14,7 +14,6 @@ void findNeighbours(
 
     if (vertex % cols != 0)
     {
-        // if vertex isn't on the left edge of graph, then find his left neighbour
         graph[vertex][currentNumOfNeighbours].vertex = (vertex - 1);
         graph[vertex][currentNumOfNeighbours].weight
             = ((rand() * (maxWeight - minWeight)) / randMaxDouble) + minWeight;
@@ -23,7 +22,6 @@ void findNeighbours(
 
     if (vertex % cols != (cols - 1))
     {
-        // if vertex isn't on the right edge of graph, then find his right neighbour
         graph[vertex][currentNumOfNeighbours].vertex = (vertex + 1);
         graph[vertex][currentNumOfNeighbours].weight
             = ((rand() / randMaxDouble) * (maxWeight - minWeight)) + minWeight;
@@ -32,7 +30,6 @@ void findNeighbours(
 
     if (vertex >= cols)
     {
-        // if vertex isn't on the upper edge of graph, then find his upper neighbour
         graph[vertex][currentNumOfNeighbours].vertex = (vertex - cols);
         graph[vertex][currentNumOfNeighbours].weight
             = ((rand() / randMaxDouble) * (maxWeight - minWeight)) + minWeight;
@@ -41,7 +38,6 @@ void findNeighbours(
 
     if (vertex < (rows * cols) - cols)
     {
-        // if vertex isn't on the lower edge of graph, then find his lower neighbour
         graph[vertex][currentNumOfNeighbours].vertex = (vertex + cols);
         graph[vertex][currentNumOfNeighbours].weight
             = ((rand() / randMaxDouble) * (maxWeight - minWeight)) + minWeight;
@@ -62,7 +58,6 @@ tPair** generateRandWeightMode(int rows, int cols, double minWeight, double maxW
 
     for (int i = 0; i < n; i++)
     {
-        // initially, changing all "vertex" variables to -1, which means "no neighbour"
         for (int j = 0; j < directions; j++)
         {
             graph[i][j].vertex = -1;

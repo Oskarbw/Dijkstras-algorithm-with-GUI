@@ -62,6 +62,9 @@ int BFS(tPair** graph, int n, int startingVertex)
             break;
         }
     }
+    free(queue->cells);
+    free(vertexState); 
+    free(queue);
     return haveAllVertexesBeenVisited;
 }
 

@@ -1,13 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "generator.h"
 #include "bfs.h"
 #include "plik.h"
 #include "dijkstra.h"
-
-#define infinity 99999
-
-
 
 
 void heapifyDown(tHeapQueue* heapQueue, double* pathLength)
@@ -133,7 +130,7 @@ void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols, int doP
         int start = pairs[i*2];
         int destination = pairs[(i*2)+1];
         for (int j=0; j<n; j++)
-            pathLength[j] = infinity;
+            pathLength[j] = INFINITY;
         pathLength[start] = 0;
         for (int j=0; j<n; j++)
             ancestor[j] = -1;
@@ -168,7 +165,7 @@ void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols, int doP
 
         }
         printf("Odleglosc %d do %d: %g\n",start,destination, pathLength[destination]);
-        if(pathLength[destination]!=infinity)
+        if(pathLength[destination]!=INFINITY)
             if(doPrintWeights)
 				printPath(graph, ancestor, destination, path);
 			else
@@ -176,4 +173,11 @@ void dijkstra (tPair** graph, int pairN, int* pairs, int rows, int cols, int doP
         else
             printf("Sciezka nie istnieje!\n\n");
     }
+    free(ancestor);
+    free(path);
+    free(pathLength);
+    free(wasVisited);
+    free(results);
+    free(heapQueue->cells);
+    free(heapQueue);
 }

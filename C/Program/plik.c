@@ -7,7 +7,6 @@
 void printGraphToFile(tPair** graph, int rows, int cols)
 {
     int n = rows * cols;
-    char* path = "graph";
     char* date = malloc(sizeof(char) * 25);
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -29,6 +28,8 @@ void printGraphToFile(tPair** graph, int rows, int cols)
         }
         fprintf(out, "\n");
     }
+    free(date);
+    fclose(out);
 }
 
 tPair** readFile(char* path, int* rows, int* cols)
@@ -71,6 +72,8 @@ tPair** readFile(char* path, int* rows, int* cols)
             }
             currentNode++;
         }
+	free(safe);
     }
+    fclose(in);
     return graph;
 }

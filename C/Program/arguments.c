@@ -61,7 +61,7 @@ int readArgumentsLoadMode(int argc, char** argv, int* pairN, int** pairs, int* g
 
 
 int readArgumentsRandMode(int argc, char** argv, int* rows, int* cols, double* low, double* high,
-    int* pairN, int** pairs, int* generatePairs, int* doSave, int* doPrintWeights)
+    int* pairN, int** pairs, int* generatePairs, int* doSave, int* doPrintWeights, int* showGraph)
 {
     for (int i = 2; i < argc; i++)
     {
@@ -116,12 +116,18 @@ int readArgumentsRandMode(int argc, char** argv, int* rows, int* cols, double* l
             continue;
         }
 		
-		if (strcmp(argv[i], "-noweights") == 0)
+	    if (strcmp(argv[i], "-noweights") == 0)
         {
             *doPrintWeights = 0;
             continue;
         }
 
+	    if (strcmp(argv[i], "-show") == 0)
+	    {
+	        *showGraph = 1;
+	        continue;
+        }
+        
         if (strcmp(argv[i], "-p") == 0)
         {
             if (atoi(argv[i + 1]) < 0)
