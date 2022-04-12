@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "test.h"
 #include "generator.h"
 #include "bfs.h"
 #include "file.h"
@@ -24,6 +25,15 @@ int main(int argc, char** argv)
     int doSave = 0;
     int doPrintWeights = 1;
     int showGraph = 0;
+
+    if (argc != 1)
+    {
+        if(strcmp(argv[1],"test") == 0)
+        {
+            allTests();
+            return 0;
+        }
+    }
 	
     if (argc == 1)
     {
