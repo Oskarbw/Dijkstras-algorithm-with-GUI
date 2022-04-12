@@ -80,7 +80,7 @@ int main(int argc, char** argv)
             if (generatePairs == 1)
             {
                 printf("\nLosowo wygenerowano 5 par:\n");
-		pairs = malloc(sizeof(int) * 10);
+		        pairs = malloc(sizeof(int) * 10);
                 for (int i = 0; i < 10; i++)
                 {
                     pairs[i] = rand() % (rows * cols);
@@ -100,7 +100,7 @@ int main(int argc, char** argv)
             
 
 
-	    tPair** graph;
+	        tPair** graph;
 
             if (mode == 2)
             {
@@ -115,26 +115,27 @@ int main(int argc, char** argv)
             if (mode == 4)
             {
                 graph = generateConMode(rows, cols, low, high);
-	    }
+	        }
 
-	    if (showGraph == 1)
-	    {
-            	printf("\nGraf:\n\n");
-            	printGraph(graph, (rows * cols));
-	    }
+	        if (showGraph == 1)
+	        {
+                printf("\nGraf:\n\n");
+                printGraph(graph, (rows * cols));
+	        }
+
             if (doSave == 1)
                 printGraphToFile(graph, rows, cols);
-	    isConst(graph, rows, cols);
+            isConst(graph, rows, cols);
             dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
-	    for(int i=0; i<rows*cols; i++)
+            for(int i=0; i<rows*cols; i++)
             {
-		free(graph[i]);
-	    }
+                free(graph[i]);
+            }
 
-	    free(graph);
-	    free(pairs);
+            free(graph);
+            free(pairs);
 
-            return 0;
+        return 0;
             
         }
     }
