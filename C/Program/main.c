@@ -22,7 +22,8 @@ int main(int argc, char** argv)
     int mode;
     int generatePairs = 1;
     int doSave = 0;
-
+	int doPrintWeights = 1;
+	
     if (argc == 1)
     {
         printf("Niewłaściwa liczba argumentów!\n");
@@ -58,7 +59,7 @@ int main(int argc, char** argv)
                 tPair** graph = readFile(argv[2], &rows, &cols);
                 printGraph(graph, rows * cols);
                 isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols);
+                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
                 return 0;
             }
             else
@@ -66,7 +67,7 @@ int main(int argc, char** argv)
         }
 
         int result = readArgumentsRandMode(
-            argc, argv, &rows, &cols, &low, &high, &pairN, &pairs, &generatePairs, &doSave);
+            argc, argv, &rows, &cols, &low, &high, &pairN, &pairs, &generatePairs, &doSave, &doPrintWeights);
         if (result == 0)
         {
             printf("Parametry opisujące graf:\n");
@@ -104,7 +105,7 @@ int main(int argc, char** argv)
                 if (doSave == 1)
                     printGraphToFile(graph, rows, cols);
                 isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols);
+                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
 
                 return 0;
             }
@@ -116,7 +117,7 @@ int main(int argc, char** argv)
                 if (doSave == 1)
                     printGraphToFile(graph, rows, cols);
                 isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols);
+                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
 
                 return 0;
             }
@@ -128,7 +129,7 @@ int main(int argc, char** argv)
                 if (doSave == 1)
                     printGraphToFile(graph, rows, cols);
                 isConst(graph, rows, cols);
-                dijkstra(graph, pairN, pairs, rows, cols);
+                dijkstra(graph, pairN, pairs, rows, cols, doPrintWeights);
 
                 return 0;
             }

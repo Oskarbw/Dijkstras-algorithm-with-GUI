@@ -61,7 +61,7 @@ int readArgumentsLoadMode(int argc, char** argv, int* pairN, int** pairs, int* g
 
 
 int readArgumentsRandMode(int argc, char** argv, int* rows, int* cols, double* low, double* high,
-    int* pairN, int** pairs, int* generatePairs, int* doSave)
+    int* pairN, int** pairs, int* generatePairs, int* doSave, int* doPrintWeights)
 {
     for (int i = 2; i < argc; i++)
     {
@@ -112,8 +112,13 @@ int readArgumentsRandMode(int argc, char** argv, int* rows, int* cols, double* l
 
         if (strcmp(argv[i], "-s") == 0)
         {
-            printf("ZAPISZAPISZAPISPZIAPZIAPZIAPZIAPZIAPZIAPZIPAZIPAZIPAZIPAZIPAZIPAZI\n\n\n");
             *doSave = 1;
+            continue;
+        }
+		
+		if (strcmp(argv[i], "-noweights") == 0)
+        {
+            *doPrintWeights = 0;
             continue;
         }
 
