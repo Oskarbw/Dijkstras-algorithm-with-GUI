@@ -5,7 +5,7 @@
 
 #include "generator.h"
 #include "bfs.h"
-#include "plik.h"
+#include "file.h"
 #include "arguments.h"
 #include "dijkstra.h"
 

@@ -3,7 +3,7 @@
 #include <math.h>
 #include "generator.h"
 #include "bfs.h"
-#include "plik.h"
+#include "file.h"
 #include "dijkstra.h"
 
 
