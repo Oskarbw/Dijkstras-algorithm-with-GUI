@@ -3,10 +3,14 @@ package graph.jimpgraph;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
 public class HelloController {
+
+    @FXML
+    private TextArea standardOutput;
     @FXML
     private CheckBox allRandModeCheckBox;
     @FXML
@@ -147,19 +151,20 @@ public class HelloController {
             colsGraph = colsN;
             minGraph = minN;
             maxGraph = maxN;
+            standardOutput.setText("Generowanie grafu! Wlasciwosci:");
             switch (mode) {
-                case 1 -> System.out.println("Tryb randWeightMode");
-                case 2 -> System.out.println("Tryb allRandMode");
-                case 3 -> System.out.println("Tryb conMode");
-                default -> System.out.println("Błąd trybu!");
+                case 1 -> standardOutput.appendText("\nTryb kartka w kratke\n");
+                case 2 -> standardOutput.appendText("\nTryb losowy\n");
+                case 3 -> standardOutput.appendText("\nTryb spojnosci\n");
+                default -> standardOutput.appendText("\nBlad trybu\n");
             }
-            System.out.println(rowsGraph);
-            System.out.println(colsGraph);
-            System.out.println(minGraph);
-            System.out.println(maxGraph);
+            standardOutput.appendText("Wiersze: "+rowsGraph+"\n");
+            standardOutput.appendText("Kolumny: "+colsGraph+"\n");
+            standardOutput.appendText("Dolny zakres: "+minGraph+"\n");
+            standardOutput.appendText("Górny zakres: "+maxGraph+"\n");
         }
         else{
-            System.out.println("Wybierz tryb!");
+            standardOutput.appendText("Wybierz tryb!\n");
         }
     }
 
