@@ -2,6 +2,7 @@ package graph.jimpgraph;
 
 public class Graph {
 
+    final int noConnection = -1;
     final int directions = 4;
     public int rows;
     public int columns;
@@ -20,5 +21,10 @@ public class Graph {
         mode = m;
         vertex = new int[rows*columns][directions];
         weight = new double[rows*columns][directions];
+        for(int i=0; i<rows*columns; i++){
+            for(int j=0; j<directions; j++){
+                vertex[i][j] = noConnection;
+            }
+        }
     }
 }

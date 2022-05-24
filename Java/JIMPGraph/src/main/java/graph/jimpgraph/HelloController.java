@@ -30,6 +30,8 @@ public class HelloController {
 
     Graph graph = new Graph();
 
+    Generator generate = new Generator();
+
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
@@ -40,30 +42,6 @@ public class HelloController {
     int mode = 0;
     int rowsN = defaultGraphSize, colsN = defaultGraphSize;
     double minN = defaultMinimum, maxN = defaultMaximum;
-
-    public void setAllRandMode(ActionEvent event){
-        if(!allRandModeCheckBox.isSelected()){
-            allRandModeCheckBox.setSelected(false);
-        }
-        else{
-            conModeCheckBox.setSelected(false);
-            randWeightModeCheckBox.setSelected(false);
-            allRandModeCheckBox.setSelected(true);
-            mode = 2;
-        }
-    }
-
-    public void setConMode(ActionEvent event){
-        if(!conModeCheckBox.isSelected()){
-            conModeCheckBox.setSelected(false);
-        }
-        else{
-            randWeightModeCheckBox.setSelected(false);
-            allRandModeCheckBox.setSelected(false);
-            conModeCheckBox.setSelected(true);
-            mode = 3;
-        }
-    }
 
     public void setRandWeightMode(ActionEvent event){
         if(!randWeightModeCheckBox.isSelected()){
@@ -77,17 +55,41 @@ public class HelloController {
         }
 
     }
+    public void setAllRandMode(ActionEvent event){
+        if(!allRandModeCheckBox.isSelected()){
+            allRandModeCheckBox.setSelected(false);
+        }
+        else{
+            conModeCheckBox.setSelected(false);
+            randWeightModeCheckBox.setSelected(false);
+            allRandModeCheckBox.setSelected(true);
+            mode = 2;
+        }
+    }
+    public void setConMode(ActionEvent event){
+        if(!conModeCheckBox.isSelected()){
+            conModeCheckBox.setSelected(false);
+        }
+        else{
+            randWeightModeCheckBox.setSelected(false);
+            allRandModeCheckBox.setSelected(false);
+            conModeCheckBox.setSelected(true);
+            mode = 3;
+        }
+    }
+
+
 
     public void submitStartDijkstra(ActionEvent event){
         if(isGenerateButtonClicked) {
             try {
                 startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
-                if (startDijkstra < 0 || startDijkstra > graph.rows * graph.columns) {
+                if (startDijkstra < 0 || startDijkstra > graph.rows * graph.columns){
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
-                endDijkstra = 1;
-                endDijkstraTextField.setText("0");
+                startDijkstra = 0;
+                startDijkstraTextField.setText("0");
                 standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
             }
         }
@@ -105,8 +107,8 @@ public class HelloController {
                 }
             } catch (NumberFormatException e) {
                 endDijkstra = 1;
-                endDijkstraTextField.setText("0");
-                standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
+                endDijkstraTextField.setText("1");
+                standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! Ustawiono wartosc domyslna\n");
             }
         }
         else{
@@ -116,22 +118,28 @@ public class HelloController {
     public void submitRows(ActionEvent event){
         try{
             rowsN = Integer.parseInt(rowsTextField.getText());
+            if (rowsN < 2){
+                throw new NumberFormatException();
+            }
         }
         catch(NumberFormatException e){
             rowsN = 15;
             rowsTextField.setText("15");
-            System.out.println("Blad zwiazany z wierszami! Ustawiono wartosc domyslna!");
+            standardOutput.appendText("Blad zwiazany z wierszami! Ustawiono wartosc domyslna!\n");
         }
     }
 
     public void submitColumns(ActionEvent event){
         try{
             colsN = Integer.parseInt(columnsTextField.getText());
+            if (colsN < 2){
+                throw new NumberFormatException();
+            }
         }
         catch(NumberFormatException e){
             colsN = 15;
             columnsTextField.setText("15");
-            System.out.println("Blad zwiazany z kolumnami! Ustawiono wartosc domyslna!");
+            standardOutput.appendText("Blad zwiazany z kolumnami! Ustawiono wartosc domyslna!\n");
         }
     }
 
@@ -142,7 +150,7 @@ public class HelloController {
         catch(NumberFormatException e){
             colsN = 0;
             minWeightTextField.setText("0");
-            System.out.println("Blad zwiazany z minimalna waga! Ustawiono wartosc domyslna!");
+            standardOutput.appendText("Blad zwiazany z minimalna waga! Ustawiono wartosc domyslna!\n");
         }
     }
     public void submitMax(ActionEvent event){
@@ -152,7 +160,7 @@ public class HelloController {
         catch(NumberFormatException e){
             maxN = 1;
             maxWeightTextField.setText("1");
-            System.out.println("Blad zwiazany z maksymalna waga! Ustawiono wartosc domyslna!");
+            standardOutput.appendText("Blad zwiazany z maksymalna waga! Ustawiono wartosc domyslna!\n");
         }
     }
     public void generateGraph(ActionEvent event){
@@ -161,9 +169,18 @@ public class HelloController {
             graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
             standardOutput.setText("Generowanie grafu!\nWlasciwosci:\n");
             switch (mode) {
-                case 1 -> standardOutput.appendText("\nTryb kartka w kratke\n");
-                case 2 -> standardOutput.appendText("\nTryb losowy\n");
-                case 3 -> standardOutput.appendText("\nTryb spojnosci\n");
+                case 1 -> {
+                    standardOutput.appendText("\nTryb kartka w kratke\n");
+                    generate.generateRandWeightMode(graph);
+                }
+                case 2 -> {
+                    standardOutput.appendText("\nTryb losowy\n");
+                    generate.generateAllRandMode(graph);
+                }
+                case 3 -> {
+                    standardOutput.appendText("\nTryb spojnosci\n");
+                    generate.generateConMode(graph);
+                }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
             standardOutput.appendText("Wiersze: "+graph.rows+"\n");
