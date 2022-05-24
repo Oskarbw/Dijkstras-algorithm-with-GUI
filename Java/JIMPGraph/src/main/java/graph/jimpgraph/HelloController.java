@@ -2,13 +2,11 @@ package graph.jimpgraph;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
 public class HelloController {
-
     @FXML
     private TextArea standardOutput;
     @FXML
@@ -17,16 +15,6 @@ public class HelloController {
     private CheckBox conModeCheckBox;
     @FXML
     private CheckBox randWeightModeCheckBox;
-    @FXML
-    private Button generateButton;
-    @FXML
-    private Button searchButton;
-    @FXML
-    private Button loadButton;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button bfsButton;
     @FXML
     private TextField rowsTextField;
     @FXML
@@ -40,10 +28,18 @@ public class HelloController {
     @FXML
     private TextField endDijkstraTextField;
 
+    Graph graph = new Graph();
+
+    final int defaultGraphSize = 15;
+    final double defaultMinimum = 0;
+    final double defaultMaximum = 1;
+
+    boolean isGenerateButtonClicked = false;
+
     int startDijkstra = 0, endDijkstra = 1;
     int mode = 0;
-    int rowsN = 15, colsN = 15, rowsGraph = 0, colsGraph = 0;
-    double minN = 0, maxN = 1, minGraph = 0, maxGraph = 1;
+    int rowsN = defaultGraphSize, colsN = defaultGraphSize;
+    double minN = defaultMinimum, maxN = defaultMaximum;
 
     public void setAllRandMode(ActionEvent event){
         if(!allRandModeCheckBox.isSelected()){
@@ -82,28 +78,42 @@ public class HelloController {
 
     }
 
-    public void sumbitStartDijkstra(ActionEvent event){
-        try{
-            startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
+    public void submitStartDijkstra(ActionEvent event){
+        if(isGenerateButtonClicked) {
+            try {
+                startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
+                if (startDijkstra < 0 || startDijkstra > graph.rows * graph.columns) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e) {
+                endDijkstra = 1;
+                endDijkstraTextField.setText("0");
+                standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
+            }
         }
-        catch(NumberFormatException e){
-            startDijkstra = 0;
-            startDijkstraTextField.setText("0");
-            System.out.println("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna");
+        else{
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
     }
 
-    public void sumbitEndDijkstra(ActionEvent event){
-        try{
-            endDijkstra = Integer.parseInt(startDijkstraTextField.getText());
+    public void submitEndDijkstra(ActionEvent event){
+        if(isGenerateButtonClicked) {
+            try {
+                endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
+                if (endDijkstra < 0 || endDijkstra > graph.rows * graph.columns) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e) {
+                endDijkstra = 1;
+                endDijkstraTextField.setText("0");
+                standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
+            }
         }
-        catch(NumberFormatException e){
-            endDijkstra = 1;
-            endDijkstraTextField.setText("0");
-            System.out.println("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna");
+        else{
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
     }
-    public void sumbitRows(ActionEvent event){
+    public void submitRows(ActionEvent event){
         try{
             rowsN = Integer.parseInt(rowsTextField.getText());
         }
@@ -114,7 +124,7 @@ public class HelloController {
         }
     }
 
-    public void sumbitColumns(ActionEvent event){
+    public void submitColumns(ActionEvent event){
         try{
             colsN = Integer.parseInt(columnsTextField.getText());
         }
@@ -125,7 +135,7 @@ public class HelloController {
         }
     }
 
-    public void sumbitMin(ActionEvent event){
+    public void submitMin(ActionEvent event){
         try{
             minN = Double.parseDouble(minWeightTextField.getText());
         }
@@ -135,7 +145,7 @@ public class HelloController {
             System.out.println("Blad zwiazany z minimalna waga! Ustawiono wartosc domyslna!");
         }
     }
-    public void sumbitMax(ActionEvent event){
+    public void submitMax(ActionEvent event){
         try{
             maxN = Double.parseDouble(maxWeightTextField.getText());
         }
@@ -147,24 +157,32 @@ public class HelloController {
     }
     public void generateGraph(ActionEvent event){
         if(mode != 0) {
-            rowsGraph = rowsN;
-            colsGraph = colsN;
-            minGraph = minN;
-            maxGraph = maxN;
-            standardOutput.setText("Generowanie grafu! Wlasciwosci:");
+            isGenerateButtonClicked = true;
+            graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
+            standardOutput.setText("Generowanie grafu!\nWlasciwosci:\n");
             switch (mode) {
                 case 1 -> standardOutput.appendText("\nTryb kartka w kratke\n");
                 case 2 -> standardOutput.appendText("\nTryb losowy\n");
                 case 3 -> standardOutput.appendText("\nTryb spojnosci\n");
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
-            standardOutput.appendText("Wiersze: "+rowsGraph+"\n");
-            standardOutput.appendText("Kolumny: "+colsGraph+"\n");
-            standardOutput.appendText("Dolny zakres: "+minGraph+"\n");
-            standardOutput.appendText("Górny zakres: "+maxGraph+"\n");
+            standardOutput.appendText("Wiersze: "+graph.rows+"\n");
+            standardOutput.appendText("Kolumny: "+graph.columns+"\n");
+            standardOutput.appendText("Dolny zakres: "+graph.min+"\n");
+            standardOutput.appendText("Górny zakres: "+graph.max+"\n");
         }
         else{
             standardOutput.appendText("Wybierz tryb!\n");
+        }
+    }
+
+    public void searchGraph(ActionEvent event){
+        if(isGenerateButtonClicked){
+            standardOutput.appendText("Szukam sciezki z wierzcholka " + startDijkstra +
+                    " do " + endDijkstra + "\n");
+        }
+        else{
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
     }
 

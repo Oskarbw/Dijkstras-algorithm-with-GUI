@@ -27,22 +27,22 @@
       <Text layoutX="450.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kolumny" />
       <Text layoutX="450.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min waga" />
       <Text layoutX="450.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max waga" />
-      <Button fx:id="generateButton" layoutX="482.0" layoutY="223.0" mnemonicParsing="false" onAction="#generateGraph" text="Generuj" />
+      <Button layoutX="482.0" layoutY="223.0" mnemonicParsing="false" onAction="#generateGraph" text="Generuj" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="25.0" layoutX="436.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="25.0" layoutX="436.0" layoutY="264.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="25.0" layoutX="436.0" layoutY="374.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="25.0" layoutX="14.0" layoutY="423.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
       <Text layoutX="450.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
       <Text layoutX="450.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Koniec" />
-      <Button fx:id="searchButton" layoutX="446.0" layoutY="336.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
+      <Button layoutX="446.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGraph" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
       <CheckBox layoutX="450.0" layoutY="416.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Koloruj wagi" />
       <CheckBox layoutX="450.0" layoutY="440.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Tylko scieżka" />
       <Text layoutX="484.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generator" />
       <Text layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
       <Text layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
-      <Button fx:id="bfsButton" layoutX="445.0" layoutY="545.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
-      <Button fx:id="loadButton" layoutX="444.0" layoutY="500.0" mnemonicParsing="false" text="Wczytaj" />
-      <Button fx:id="saveButton" layoutX="516.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
+      <Button layoutX="445.0" layoutY="545.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
+      <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" text="Wczytaj" />
+      <Button layoutX="516.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="25.0" layoutX="14.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="400.0">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
@@ -80,12 +80,12 @@
       <Text layoutX="381.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" />
       <Text layoutX="24.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min" />
       <Text layoutX="172.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane wyjściowe" />
-      <TextField fx:id="rowsTextField" layoutX="522.0" layoutY="112.0" onAction="#sumbitRows" prefHeight="16.0" prefWidth="47.0" text="15" />
-      <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" onAction="#sumbitColumns" prefHeight="0.0" prefWidth="47.0" text="15" />
-      <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" onAction="#sumbitMin" prefHeight="0.0" prefWidth="47.0" text="0" />
-      <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" onAction="#sumbitMax" prefHeight="0.0" prefWidth="47.0" text="1" />
-      <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" onAction="#sumbitStartDijkstra" prefHeight="0.0" prefWidth="47.0" text="0" />
-      <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" onAction="#sumbitEndDijkstra" prefHeight="0.0" prefWidth="47.0" text="1" />
+      <TextField fx:id="rowsTextField" layoutX="522.0" layoutY="112.0" onAction="#submitRows" prefHeight="16.0" prefWidth="47.0" text="15" />
+      <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" onAction="#submitColumns" prefHeight="0.0" prefWidth="47.0" text="15" />
+      <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" onAction="#submitMin" prefHeight="0.0" prefWidth="47.0" text="0" />
+      <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" onAction="#submitMax" prefHeight="0.0" prefWidth="47.0" text="1" />
+      <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" onAction="#submitStartDijkstra" prefHeight="0.0" prefWidth="47.0" text="0" />
+      <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" onAction="#submitEndDijkstra" prefHeight="0.0" prefWidth="47.0" text="1" />
       <TextArea fx:id="standardOutput" layoutX="14.0" layoutY="448.0" prefHeight="142.0" prefWidth="400.0" />
    </children>
 </AnchorPane>
