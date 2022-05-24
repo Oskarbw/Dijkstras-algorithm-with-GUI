@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graph.jimpgraph.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graph.jimpgraph.HelloController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cdcdcd" height="600.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="100.0" layoutX="436.0" layoutY="264.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
@@ -37,9 +32,9 @@
       <Button layoutX="446.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGraph" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
       <CheckBox layoutX="450.0" layoutY="416.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Koloruj wagi" />
       <CheckBox layoutX="450.0" layoutY="440.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Tylko scieżka" />
-      <Text layoutX="484.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generator" />
-      <Text layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
-      <Text layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
+      <Text fill="WHITE" layoutX="484.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generator" />
+      <Text fill="WHITE" layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
+      <Text fill="WHITE" layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
       <Button layoutX="445.0" layoutY="545.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
       <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" onAction="#readGraph" text="Wczytaj" />
       <Button layoutX="516.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
@@ -76,10 +71,10 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <Text layoutX="199.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waga" />
-      <Text layoutX="381.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" />
+      <Text fill="#cccccc" layoutX="199.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Waga" />
+      <Text fill="WHITE" layoutX="381.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" />
       <Text layoutX="24.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min" />
-      <Text layoutX="172.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane wyjściowe" />
+      <Text fill="WHITE" layoutX="172.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane wyjściowe" />
       <TextField fx:id="rowsTextField" layoutX="522.0" layoutY="112.0" onAction="#submitRows" prefHeight="16.0" prefWidth="47.0" text="15" />
       <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" onAction="#submitColumns" prefHeight="0.0" prefWidth="47.0" text="15" />
       <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" onAction="#submitMin" prefHeight="0.0" prefWidth="47.0" text="0" />
