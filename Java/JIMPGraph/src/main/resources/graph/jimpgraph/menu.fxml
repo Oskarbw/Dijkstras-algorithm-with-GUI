@@ -41,7 +41,7 @@
       <Text layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
       <Text layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
       <Button layoutX="445.0" layoutY="545.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
-      <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" text="Wczytaj" />
+      <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" onAction="#readGraph" text="Wczytaj" />
       <Button layoutX="516.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="25.0" layoutX="14.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="400.0">
          <fill>
@@ -86,6 +86,7 @@
       <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" onAction="#submitMax" prefHeight="0.0" prefWidth="47.0" text="1" />
       <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" onAction="#submitStartDijkstra" prefHeight="0.0" prefWidth="47.0" text="0" />
       <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" onAction="#submitEndDijkstra" prefHeight="0.0" prefWidth="47.0" text="1" />
-      <TextArea fx:id="standardOutput" layoutX="14.0" layoutY="448.0" prefHeight="142.0" prefWidth="400.0" />
+      <TextArea fx:id="standardOutput" editable="false" layoutX="14.0" layoutY="448.0" prefHeight="142.0" prefWidth="400.0" />
+      <TextField fx:id="readFileTextField" editable="false" layoutX="34.0" layoutY="500.0" onAction="#submitPath" prefHeight="25.0" prefWidth="360.0" visible="false" />
    </children>
 </AnchorPane>

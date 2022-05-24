@@ -6,6 +6,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
+import java.io.FileNotFoundException;
+
 public class HelloController {
     @FXML
     private TextArea standardOutput;
@@ -27,14 +29,20 @@ public class HelloController {
     private TextField startDijkstraTextField;
     @FXML
     private TextField endDijkstraTextField;
+    @FXML
+    private TextField readFileTextField;
 
     Graph graph = new Graph();
 
     Generator generate = new Generator();
 
+    FileManager fm = new FileManager();
+
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
+
+    private String path;
 
     boolean isGenerateButtonClicked = false;
 
@@ -201,6 +209,29 @@ public class HelloController {
         else{
             standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
+    }
+
+    public void readGraph(ActionEvent event){
+        readFileTextField.setVisible(true);
+        readFileTextField.setEditable(true);
+    }
+
+    public void submitPath(ActionEvent event) throws FileNotFoundException {
+        path = readFileTextField.getText();
+        readFileTextField.setVisible(false);
+        readFileTextField.setEditable(false);
+        try{
+            if(fm.readFile(path,graph) == 0){
+                standardOutput.appendText("Udalo sie wczytac graf!\n");
+                isGenerateButtonClicked = true;
+            }
+            else{
+                standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
+            }
+        }catch(FileNotFoundException e){
+            standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
+        }
+
     }
 
 }
