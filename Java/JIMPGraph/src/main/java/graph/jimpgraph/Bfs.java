@@ -10,7 +10,7 @@ public class Bfs {
 
     public static int BFS(Graph graph, int startingVertex){
         int n = graph.columns*graph.rows;
-        queue = new LinkedList<Integer>;
+        queue = new LinkedList<Integer>();
         vertexState = new int[n];
         for(int i=0;i<n;i++){
             vertexState[n] = 0;
