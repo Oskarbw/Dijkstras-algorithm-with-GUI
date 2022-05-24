@@ -42,8 +42,6 @@ public class HelloController {
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
 
-    private String path;
-
     boolean isGraphGenerated = false;
 
     int startDijkstra = 0, endDijkstra = 1;
@@ -217,7 +215,7 @@ public class HelloController {
     }
 
     public void submitPath(ActionEvent event){
-        path = readFileTextField.getText();
+        String path = readFileTextField.getText();
         readFileTextField.setVisible(false);
         readFileTextField.setEditable(false);
         try{
