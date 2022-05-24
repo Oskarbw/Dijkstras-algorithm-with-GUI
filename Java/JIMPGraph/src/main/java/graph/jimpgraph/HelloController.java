@@ -44,7 +44,7 @@ public class HelloController {
 
     private String path;
 
-    boolean isGenerateButtonClicked = false;
+    boolean isGraphGenerated = false;
 
     int startDijkstra = 0, endDijkstra = 1;
     int mode = 0;
@@ -89,7 +89,7 @@ public class HelloController {
 
 
     public void submitStartDijkstra(ActionEvent event){
-        if(isGenerateButtonClicked) {
+        if(isGraphGenerated) {
             try {
                 startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
                 if (startDijkstra < 0 || startDijkstra > graph.rows * graph.columns){
@@ -107,7 +107,7 @@ public class HelloController {
     }
 
     public void submitEndDijkstra(ActionEvent event){
-        if(isGenerateButtonClicked) {
+        if(isGraphGenerated) {
             try {
                 endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
                 if (endDijkstra < 0 || endDijkstra > graph.rows * graph.columns) {
@@ -173,7 +173,7 @@ public class HelloController {
     }
     public void generateGraph(ActionEvent event){
         if(mode != 0) {
-            isGenerateButtonClicked = true;
+            isGraphGenerated = true;
             graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
             standardOutput.setText("Generowanie grafu!\nWlasciwosci:\n");
             switch (mode) {
@@ -202,7 +202,7 @@ public class HelloController {
     }
 
     public void searchGraph(ActionEvent event){
-        if(isGenerateButtonClicked){
+        if(isGraphGenerated){
             standardOutput.appendText("Szukam sciezki z wierzcholka " + startDijkstra +
                     " do " + endDijkstra + "\n");
         }
@@ -216,14 +216,14 @@ public class HelloController {
         readFileTextField.setEditable(true);
     }
 
-    public void submitPath(ActionEvent event) throws FileNotFoundException {
+    public void submitPath(ActionEvent event){
         path = readFileTextField.getText();
         readFileTextField.setVisible(false);
         readFileTextField.setEditable(false);
         try{
             if(fm.readFile(path,graph) == 0){
                 standardOutput.appendText("Udalo sie wczytac graf!\n");
-                isGenerateButtonClicked = true;
+                isGraphGenerated = true;
             }
             else{
                 standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
@@ -231,7 +231,6 @@ public class HelloController {
         }catch(FileNotFoundException e){
             standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
         }
-
     }
 
 }
