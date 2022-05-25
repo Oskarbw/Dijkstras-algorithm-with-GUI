@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
 import java.io.FileNotFoundException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class HelloController {
     @FXML
@@ -37,6 +39,10 @@ public class HelloController {
     Generator generate = new Generator();
 
     FileManager fm = new FileManager();
+
+    Dijkstra dijkstra = new Dijkstra();
+
+    Bfs bfs = new Bfs();
 
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
@@ -200,9 +206,24 @@ public class HelloController {
     }
 
     public void searchGraph(ActionEvent event){
+
+
+        LinkedList<Integer> path;
         if(isGraphGenerated){
-            standardOutput.appendText("Szukam sciezki z wierzcholka " + startDijkstra +
-                    " do " + endDijkstra + "\n");
+            path = dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
+            standardOutput.appendText("Znaleziona sciezka " + path.toString()+"\n");
+
+            int tmp2 = path.removeFirst();
+            double tmpLength;
+            String withWeightsCommunicate = new String();
+            withWeightsCommunicate = String.valueOf(tmp2);
+            while(!path.isEmpty()){
+
+                tmpLength = dijkstra.pathLength[path.peekFirst()] - dijkstra.pathLength[tmp2];
+                tmp2 = path.removeFirst();
+                withWeightsCommunicate = withWeightsCommunicate + "-(" + String.format("%.03f", tmpLength) + ")->"+ tmp2;
+            }
+            standardOutput.appendText("Z wagami: "+ withWeightsCommunicate+"\n");
         }
         else{
             standardOutput.appendText("Nie wygenerowano grafu!\n");
@@ -229,6 +250,17 @@ public class HelloController {
         }catch(FileNotFoundException e){
             standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
         }
+    }
+
+    public void runBfs(ActionEvent event){
+        if(isGraphGenerated) {
+            if (Bfs.BFS(graph, 0) == 1)
+                standardOutput.appendText("Graf jest spójny!\n");
+            else
+                standardOutput.appendText("Graf jest niespójny\n");
+        }
+        else
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
     }
 
 }

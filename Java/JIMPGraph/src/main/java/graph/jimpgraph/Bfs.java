@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class Bfs {
 
-    static Queue<Integer> queue;
+    static LinkedList<Integer> queue;
     static int[] vertexState;
 
     public static int BFS(Graph graph, int startingVertex){
@@ -13,19 +13,19 @@ public class Bfs {
         queue = new LinkedList<Integer>();
         vertexState = new int[n];
         for(int i=0;i<n;i++){
-            vertexState[n] = 0;
+            vertexState[i] = 0;
         }
         queue.add(startingVertex);
         int currentVertex;
         while(!queue.isEmpty()){
-            currentVertex = queue.remove();
+            currentVertex = queue.removeFirst();
             for (int j = 0; j < graph.directions; j++)
             {
-                if (vertexState[graph.vertex[currentVertex][j]] == 0
-                        && graph.vertex[currentVertex][j] != -1)
-                {
-                    queue.add(graph.vertex[currentVertex][j]);
-                    vertexState[graph.vertex[currentVertex][j]] = 1; // 1 - added to queue
+                if (graph.vertex[currentVertex][j] != -1) {
+                    if (vertexState[graph.vertex[currentVertex][j]] == 0) {
+                        queue.add(graph.vertex[currentVertex][j]);
+                        vertexState[graph.vertex[currentVertex][j]] = 1; // 1 - added to queue
+                    }
                 }
             }
             vertexState[currentVertex] = 2; // visited
@@ -45,19 +45,9 @@ public class Bfs {
 
     }
 
-    public static int isConst (Graph graph){
-        int isGraphConst = 1;
-        for (int i=0; i<graph.rows*graph.columns;i++){
-            if(BFS(graph,i) == 0)
-            {
-                isGraphConst = 0;
-                break;
-            }
-        }
-        return isGraphConst;
-    }
+
     public static String isConstCommunicate (Graph graph){
-        if(isConst(graph) == 1) return "Graf jest spójny!";
+        if(BFS(graph,0) == 1) return "Graf jest spójny!";
         else return "Graf jest niespójny!";
     }
 }

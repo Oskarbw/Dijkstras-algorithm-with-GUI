@@ -55,6 +55,6 @@ public class Generator {
     void generateConMode(Graph graph){
         do{
             generateAllRandMode(graph);
-        }while(Bfs.isConst(graph) == 0);
+        }while(Bfs.BFS(graph,0) == 0);
     }
 }
