@@ -46,10 +46,10 @@ public class Dijkstra {
         pQueue.add(start);
 
         for (int i=0; i < n ; i++){
-            System.out.println("Wykonanie petli dijkstry " + i);
+
             if (!pQueue.isEmpty()){
                 currentVertex = pQueue.remove();
-                System.out.println("Zdjeto element z kolejki " + currentVertex);
+
             }
             else
                 break;
@@ -58,25 +58,26 @@ public class Dijkstra {
 
                 if(graph.vertex[currentVertex][j]!=-1 &&
                         (graph.weight[currentVertex][j] +pathLength[currentVertex]<pathLength[graph.vertex[currentVertex][j]]))
-                {   System.out.println("j wynosi " + j);
-                    System.out.println("Rozwazamy polaczenie wierzcholka " + currentVertex + " z " + graph.vertex[currentVertex][j]);
+                {
                     pathLength[graph.vertex[currentVertex][j]] = graph.weight[currentVertex][j] +pathLength[currentVertex];
                     ancestor[graph.vertex[currentVertex][j]] = currentVertex;
                     if(wasVisited[graph.vertex[currentVertex][j]]==0)
                     {
-                        System.out.println("Dodano do kolejki tego wierzchola" );
                         pQueue.add(graph.vertex[currentVertex][j]);
                         wasVisited[graph.vertex[currentVertex][j]]=1;
                     }
                 }
             }
         }
-
+        if(pathLength[destination]==INFINITY)
+        {
+            path.clear();
+            return null;
+        }
 
 
         int tmp = destination;
         path.add(destination);
-        System.out.println(ancestor[tmp]);
         while(ancestor[tmp]!=-1)
         {
 

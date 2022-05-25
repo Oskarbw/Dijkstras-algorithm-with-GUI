@@ -210,20 +210,24 @@ public class HelloController {
 
         LinkedList<Integer> path;
         if(isGraphGenerated){
-            path = dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
-            standardOutput.appendText("Znaleziona sciezka " + path.toString()+"\n");
+            if(dijkstra.dijkstra(graph, startDijkstra, endDijkstra)!=null) {
+                path = dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
+                standardOutput.appendText("Znaleziona sciezka " + path.toString() + "\n");
 
-            int tmp2 = path.removeFirst();
-            double tmpLength;
-            String withWeightsCommunicate = new String();
-            withWeightsCommunicate = String.valueOf(tmp2);
-            while(!path.isEmpty()){
+                int tmp2 = path.removeFirst();
+                double tmpLength;
+                String withWeightsCommunicate = new String();
+                withWeightsCommunicate = String.valueOf(tmp2);
+                while (!path.isEmpty()) {
 
-                tmpLength = dijkstra.pathLength[path.peekFirst()] - dijkstra.pathLength[tmp2];
-                tmp2 = path.removeFirst();
-                withWeightsCommunicate = withWeightsCommunicate + "-(" + String.format("%.03f", tmpLength) + ")->"+ tmp2;
+                    tmpLength = dijkstra.pathLength[path.peekFirst()] - dijkstra.pathLength[tmp2];
+                    tmp2 = path.removeFirst();
+                    withWeightsCommunicate = withWeightsCommunicate + "-(" + String.format("%.03f", tmpLength) + ")->" + tmp2;
+                }
+                standardOutput.appendText("Z wagami: " + withWeightsCommunicate + "\n");
             }
-            standardOutput.appendText("Z wagami: "+ withWeightsCommunicate+"\n");
+            else
+                standardOutput.appendText("Sciezka nie istnieje!" + "\n");
         }
         else{
             standardOutput.appendText("Nie wygenerowano grafu!\n");
