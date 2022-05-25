@@ -7,10 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class HelloController {
+    @FXML
+    private TextField getPathToGraphTextField;
     @FXML
     private TextArea standardOutput;
     @FXML
@@ -235,6 +236,7 @@ public class HelloController {
     }
 
     public void readGraph(ActionEvent event){
+        getPathToGraphTextField.setVisible(true);
         readFileTextField.setVisible(true);
         readFileTextField.setEditable(true);
     }
@@ -243,6 +245,7 @@ public class HelloController {
         String path = readFileTextField.getText();
         readFileTextField.setVisible(false);
         readFileTextField.setEditable(false);
+        getPathToGraphTextField.setVisible(false);
         try{
             if(fm.readFile(path,graph) == 0){
                 standardOutput.appendText("Udalo sie wczytac graf!\n");
@@ -258,7 +261,7 @@ public class HelloController {
 
     public void runBfs(ActionEvent event){
         if(isGraphGenerated) {
-            if (Bfs.BFS(graph, 0) == 1)
+            if (bfs.BFS(graph, 0) == 1)
                 standardOutput.appendText("Graf jest spójny!\n");
             else
                 standardOutput.appendText("Graf jest niespójny\n");
