@@ -1,15 +1,13 @@
 package graph.jimpgraph;
 
 import java.util.LinkedList;
-import java.util.Queue;
-
 public class Bfs {
 
     static LinkedList<Integer> queue;
     static int[] vertexState;
 
     public static int BFS(Graph graph, int startingVertex){
-        int n = graph.columns*graph.rows;
+        int n = graph.getColumns()*graph.getRows();
         queue = new LinkedList<Integer>();
         vertexState = new int[n];
         for(int i=0;i<n;i++){

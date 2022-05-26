@@ -4,14 +4,31 @@ public class Graph {
 
     final int noConnection = -1;
     final int directions = 4;
-    public int rows;
-    public int columns;
-    public int mode;
-    public double min;
-    public double max;
+    private int rows;
+    private int columns;
+    private int mode;
+    private double min;
+    private double max;
+
 
     public int[][] vertex;
     public double[][] weight;
+
+   int getRows(){
+        return rows;
+   }
+   int getColumns(){
+       return columns;
+   }
+   int getMode(){
+       return mode;
+   }
+   double getMinWeight(){
+       return min;
+   }
+   double getMaxWeight(){
+       return max;
+   }
 
     void initializeGraph(int r, int c, double minG, double maxG, int m){
         rows = r;

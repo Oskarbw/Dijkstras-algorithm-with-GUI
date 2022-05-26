@@ -96,7 +96,7 @@ public class HelloController {
         if(isGraphGenerated) {
             try {
                 startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
-                if (startDijkstra < 0 || startDijkstra > graph.rows * graph.columns){
+                if (startDijkstra < 0 || startDijkstra > graph.getRows() * graph.getColumns()){
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
@@ -114,7 +114,7 @@ public class HelloController {
         if(isGraphGenerated) {
             try {
                 endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
-                if (endDijkstra < 0 || endDijkstra > graph.rows * graph.columns) {
+                if (endDijkstra < 0 || endDijkstra > graph.getRows() * graph.getColumns()) {
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException e) {
@@ -195,10 +195,10 @@ public class HelloController {
                 }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
-            standardOutput.appendText("Wiersze: "+graph.rows+"\n");
-            standardOutput.appendText("Kolumny: "+graph.columns+"\n");
-            standardOutput.appendText("Dolny zakres: "+graph.min+"\n");
-            standardOutput.appendText("Górny zakres: "+graph.max+"\n");
+            standardOutput.appendText("Wiersze: "+graph.getRows()+"\n");
+            standardOutput.appendText("Kolumny: "+graph.getColumns()+"\n");
+            standardOutput.appendText("Dolny zakres: "+graph.getMinWeight()+"\n");
+            standardOutput.appendText("Górny zakres: "+graph.getMaxWeight()+"\n");
         }
         else{
             standardOutput.appendText("Wybierz tryb!\n");

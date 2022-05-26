@@ -30,7 +30,7 @@ public class Dijkstra {
     public LinkedList<Integer> dijkstra (Graph graph, int start, int destination) {
 
         LinkedList<Integer> path;
-        int n = graph.rows*graph.columns;
+        int n = graph.getRows()*graph.getColumns();
         path = new LinkedList<Integer>();
         pQueue = new PriorityQueue<Integer>(new TheComparator());
         int[] ancestor = new int[n];
