@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class FileManager {
-    public int readFile(String path, Graph graph) throws FileNotFoundException{
+    public static int readFile(String path, Graph graph) throws FileNotFoundException{
         File file = new File(path);
         Scanner sc = new Scanner(file);
         String parameters = sc.nextLine();

@@ -29,7 +29,7 @@ public class Dijkstra {
     public static double getPathLength(int a){
         return pathLength[a];
     }
-    public LinkedList<Integer> dijkstra (Graph graph, int start, int destination) {
+    public static LinkedList<Integer> dijkstra (Graph graph, int start, int destination) {
         LinkedList<Integer> path;
         int n = graph.getRows()*graph.getColumns();
         path = new LinkedList<>();

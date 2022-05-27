@@ -35,11 +35,6 @@ public class HelloController {
     private TextField readFileTextField;
 
     Graph graph = new Graph();
-
-    FileManager fm = new FileManager();
-
-    Dijkstra dijkstra = new Dijkstra();
-
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
@@ -216,10 +211,10 @@ public class HelloController {
             standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
         else{
-            if(dijkstra.dijkstra(graph, startDijkstra, endDijkstra)!=null) {
-                path = dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
-                standardOutput.appendText("Znaleziona sciezka " + path.toString() + "\n");
-
+            if(Dijkstra.dijkstra(graph, startDijkstra, endDijkstra)!=null) {
+                path = Dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
+                assert path != null;
+                standardOutput.appendText("Znaleziona sciezka " + path + "\n");
                 int tmp2 = path.removeFirst();
                 double tmpLength;
                 StringBuilder withWeightsCommunicate;
@@ -249,7 +244,7 @@ public class HelloController {
         readFileTextField.setEditable(false);
         getPathToGraphTextField.setVisible(false);
         try{
-            if(fm.readFile(path,graph) == 0){
+            if(FileManager.readFile(path,graph) == 0){
                 standardOutput.appendText("Udalo sie wczytac graf!\n");
                 isGraphGenerated = true;
             }
