@@ -36,8 +36,6 @@ public class HelloController {
 
     Graph graph = new Graph();
 
-    Generator generate = new Generator();
-
     FileManager fm = new FileManager();
 
     Dijkstra dijkstra = new Dijkstra();
@@ -92,63 +90,91 @@ public class HelloController {
         try {
             startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
             if (startDijkstra < 0 || startDijkstra > graph.getRows() * graph.getColumns()){
-                throw new NumberFormatException();
+                standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! |"+startDijkstra+"| To niepoprawna wartość! Ustawiono wartosc domyslna\n");
+                startDijkstra = 0;
+                startDijkstraTextField.setText("0");
             }
         } catch (NumberFormatException e) {
+            standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! |"+startDijkstra+"| To niepoprawna wartość! Ustawiono wartosc domyslna\n");
             startDijkstra = 0;
             startDijkstraTextField.setText("0");
-            standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
         }
         try {
             endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
             if (endDijkstra < 0 || (endDijkstra > graph.getRows() * graph.getColumns() && endDijkstra != 1)) {
-                throw new NumberFormatException();
+                standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! |" +endDijkstra+"| to niepoprawna wartość! Ustawiono wartosc domyslna\n");
+                endDijkstra = 1;
+                endDijkstraTextField.setText("1");
             }
         } catch (NumberFormatException e) {
+            standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! |" +endDijkstra+"| to niepoprawna wartość! Ustawiono wartosc domyslna\n");
             endDijkstra = 1;
             endDijkstraTextField.setText("1");
-            standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! Ustawiono wartosc domyslna\n");
         }
     }
     public void submitGraphSpecs(){
         standardOutput.setText("");
         try{
             rowsN = Integer.parseInt(rowsTextField.getText());
-            if (rowsN < 2){
-                throw new NumberFormatException();
+            if (rowsN < 2 || rowsN > 1000){
+                standardOutput.appendText("Blad zwiazany z wierszami! |"+rowsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+                rowsN = 15;
+                rowsTextField.setText("15");
             }
         }
         catch(NumberFormatException e){
+            standardOutput.appendText("Blad zwiazany z wierszami! |"+rowsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
             rowsN = 15;
             rowsTextField.setText("15");
-            standardOutput.appendText("Blad zwiazany z wierszami! Ustawiono wartosc domyslna!\n");
         }
         try{
             colsN = Integer.parseInt(columnsTextField.getText());
-            if (colsN < 2){
-                throw new NumberFormatException();
+            if (colsN < 2 || colsN > 1000){
+                standardOutput.appendText("Blad zwiazany z kolumnami! |"+colsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+                colsN = 15;
+                columnsTextField.setText("15");
             }
         }
         catch(NumberFormatException e){
+            standardOutput.appendText("Blad zwiazany z kolumnami! |"+colsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
             colsN = 15;
             columnsTextField.setText("15");
-            standardOutput.appendText("Blad zwiazany z kolumnami! Ustawiono wartosc domyslna!\n");
         }
         try{
             minN = Double.parseDouble(minWeightTextField.getText());
+            if(minN < -10 || minN > 10){
+                minN = 0;
+                minWeightTextField.setText("0");
+                standardOutput.appendText("Blad zwiazany z minimalna waga! |"+minN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+            }
         }
         catch(NumberFormatException e){
-            colsN = 0;
+            minN = 0;
             minWeightTextField.setText("0");
-            standardOutput.appendText("Blad zwiazany z minimalna waga! Ustawiono wartosc domyslna!\n");
+            standardOutput.appendText("Blad zwiazany z minimalna waga! |"+minN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
         }
         try{
             maxN = Double.parseDouble(maxWeightTextField.getText());
+            if(maxN - minN <= 0){
+                standardOutput.appendText("Blad! Gorny zakres wag mniejszy od dolnego! Zamieniam miejscami!\n");
+                double temp = maxN;
+                maxN = minN;
+                minN = temp;
+                maxWeightTextField.setText(String.valueOf(maxN));
+                minWeightTextField.setText(String.valueOf(minN));
+            }
+            if(maxN - minN > 100){
+                standardOutput.appendText("Blad! Roznica gornego i dolnego zakresu wag jest wieksza niz 100! Ustawiono wartosci domyslne!\n");
+                maxN = 1;
+                minN = 0;
+                maxWeightTextField.setText(String.valueOf(maxN));
+                minWeightTextField.setText(String.valueOf(minN));
+            }
         }
         catch(NumberFormatException e){
             maxN = 1;
             maxWeightTextField.setText("1");
-            standardOutput.appendText("Blad zwiazany z maksymalna waga! Ustawiono wartosc domyslna!\n");
+            standardOutput.appendText("Blad zwiazany z maksymalna waga! |"+maxN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
         }
     }
 
@@ -161,15 +187,15 @@ public class HelloController {
             switch (graph.getMode()) {
                 case 1 -> {
                     standardOutput.appendText("\nTryb kartka w kratke\n");
-                    generate.generateRandWeightMode(graph);
+                    Generator.generateRandWeightMode(graph);
                 }
                 case 2 -> {
                     standardOutput.appendText("\nTryb losowy\n");
-                    generate.generateAllRandMode(graph);
+                    Generator.generateAllRandMode(graph);
                 }
                 case 3 -> {
                     standardOutput.appendText("\nTryb spojnosci\n");
-                    generate.generateConMode(graph);
+                    Generator.generateConMode(graph);
                 }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }

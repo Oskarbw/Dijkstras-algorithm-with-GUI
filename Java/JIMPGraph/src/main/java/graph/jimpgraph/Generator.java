@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Generator {
     final static int probability = 7;
-    void findNeighbours(Graph graph){
+    static void findNeighbours(Graph graph){
         for(int vertexCount=0; vertexCount < graph.getColumns()*graph.getRows(); vertexCount++) {
             int currentNumOfNeighbours = 0;
             Random rand = new Random();
@@ -31,11 +31,11 @@ public class Generator {
         }
     }
 
-    void generateRandWeightMode(Graph graph){
+    static void generateRandWeightMode(Graph graph){
         findNeighbours(graph);
     }
 
-    void generateAllRandMode(Graph graph){
+    static void generateAllRandMode(Graph graph){
         Random rand = new Random();
         generateRandWeightMode(graph);
         for(int i=0; i < (graph.getRows() * graph.getColumns()); i++){
@@ -50,7 +50,7 @@ public class Generator {
         }
     }
 
-    void generateConMode(Graph graph){
+    static void generateConMode(Graph graph){
         do{
             generateAllRandMode(graph);
         }while(Bfs.BFS(graph,0) == 0);
