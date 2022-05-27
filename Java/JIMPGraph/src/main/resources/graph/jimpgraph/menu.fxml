@@ -4,14 +4,12 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graph.jimpgraph.HelloController">
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cdcdcd" height="600.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
@@ -20,7 +18,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="400.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="100.0" layoutX="436.0" layoutY="486.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="100.0" layoutX="436.0" layoutY="374.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
-      <CheckBox fx:id="randWeightModeCheckBox" layoutX="449.0" layoutY="46.0" mnemonicParsing="false" onAction="#setRandWeightMode" prefHeight="17.0" prefWidth="122.0" text="RandWeightMode" />
+      <CheckBox fx:id="randWeightModeCheckBox" layoutX="450.0" layoutY="46.0" mnemonicParsing="false" onAction="#setRandWeightMode" prefHeight="17.0" prefWidth="122.0" text="RandWeightMode" />
       <CheckBox fx:id="allRandModeCheckBox" layoutX="450.0" layoutY="68.0" mnemonicParsing="false" onAction="#setAllRandMode" prefHeight="17.0" prefWidth="122.0" text="AllRandMode" />
       <CheckBox fx:id="conModeCheckBox" layoutX="450.0" layoutY="90.0" mnemonicParsing="false" onAction="#setConMode" prefHeight="17.0" prefWidth="122.0" text="ConMode" />
       <Text layoutX="450.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wiersze" />
@@ -86,12 +84,7 @@
       <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" prefHeight="0.0" prefWidth="47.0" text="1" />
       <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" prefHeight="0.0" prefWidth="47.0" text="0" />
       <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" prefHeight="0.0" prefWidth="47.0" text="1" />
-      <TextArea fx:id="standardOutput" editable="false" layoutX="14.0" layoutY="448.0" prefHeight="83.0" prefWidth="400.0" />
+      <TextArea fx:id="standardOutput" editable="false" layoutX="14.0" layoutY="448.0" prefHeight="140.0" prefWidth="400.0" />
       <TextField fx:id="readFileTextField" editable="false" layoutX="13.0" layoutY="564.0" onAction="#submitPath" prefHeight="25.0" prefWidth="386.0" visible="false" />
       <TextField fx:id="getPathToGraphTextField" editable="false" layoutX="14.0" layoutY="536.0" text="Podaj ścieżkę do pliku:" visible="false" />
-   <TextFlow layoutX="14.0" layoutY="539.0" prefHeight="51.0" prefWidth="400.0">
-      <effect>
-         <GaussianBlur />
-      </effect>
-   </TextFlow>
 </AnchorPane>
