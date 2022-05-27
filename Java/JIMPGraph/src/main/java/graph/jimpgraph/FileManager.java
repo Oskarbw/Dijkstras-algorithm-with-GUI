@@ -18,9 +18,9 @@ public class FileManager {
                 String line = sc.nextLine();
                 String[] parsedLine = line.split(" ");
                 for (int i = 0; i < parsedLine.length; i += 3) {
-                    graph.vertex[numberOfLine][numberOfConnections] = Integer.parseInt(parsedLine[i + 1]);
+                    graph.setVertex(numberOfLine, numberOfConnections, Integer.parseInt(parsedLine[i + 1]));
                     parsedLine[i + 2] = parsedLine[i + 2].replace(':', '0');
-                    graph.weight[numberOfLine][numberOfConnections] = Double.parseDouble(parsedLine[i + 2]);
+                    graph.setWeight(numberOfLine, numberOfConnections, Double.parseDouble(parsedLine[i + 2]));
                     numberOfConnections += 1;
                 }
                 numberOfLine += 1;

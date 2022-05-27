@@ -8,7 +8,7 @@ public class Bfs {
 
     public static int BFS(Graph graph, int startingVertex){
         int n = graph.getColumns()*graph.getRows();
-        queue = new LinkedList<Integer>();
+        queue = new LinkedList<>();
         vertexState = new int[n];
         for(int i=0;i<n;i++){
             vertexState[i] = 0;
@@ -19,10 +19,10 @@ public class Bfs {
             currentVertex = queue.removeFirst();
             for (int j = 0; j < graph.directions; j++)
             {
-                if (graph.vertex[currentVertex][j] != -1) {
-                    if (vertexState[graph.vertex[currentVertex][j]] == 0) {
-                        queue.add(graph.vertex[currentVertex][j]);
-                        vertexState[graph.vertex[currentVertex][j]] = 1; // 1 - added to queue
+                if (graph.getVertex(currentVertex,j) != -1) {
+                    if (vertexState[graph.getVertex(currentVertex, j)] == 0) {
+                        queue.add(graph.getVertex(currentVertex, j));
+                        vertexState[graph.getVertex(currentVertex, j)] = 1; // 1 - added to queue
                     }
                 }
             }

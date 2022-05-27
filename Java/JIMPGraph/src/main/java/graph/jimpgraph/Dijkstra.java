@@ -31,8 +31,8 @@ public class Dijkstra {
 
         LinkedList<Integer> path;
         int n = graph.getRows()*graph.getColumns();
-        path = new LinkedList<Integer>();
-        pQueue = new PriorityQueue<Integer>(new TheComparator());
+        path = new LinkedList<>();
+        pQueue = new PriorityQueue<>(new TheComparator());
         int[] ancestor = new int[n];
         int[] wasVisited = new int[n];
         pathLength  = new double[n];
@@ -56,15 +56,15 @@ public class Dijkstra {
 
             for (int j=0; j<graph.directions; j++){
 
-                if(graph.vertex[currentVertex][j]!=-1 &&
-                        (graph.weight[currentVertex][j] +pathLength[currentVertex]<pathLength[graph.vertex[currentVertex][j]]))
+                if(graph.getVertex(currentVertex,j)!=-1 &&
+                        (graph.getWeight(currentVertex, j) +pathLength[currentVertex]<pathLength[graph.getVertex(currentVertex,j)]))
                 {
-                    pathLength[graph.vertex[currentVertex][j]] = graph.weight[currentVertex][j] +pathLength[currentVertex];
-                    ancestor[graph.vertex[currentVertex][j]] = currentVertex;
-                    if(wasVisited[graph.vertex[currentVertex][j]]==0)
+                    pathLength[graph.getVertex(currentVertex,j)] = graph.getWeight(currentVertex,j) +pathLength[currentVertex];
+                    ancestor[graph.getVertex(currentVertex, j)] = currentVertex;
+                    if(wasVisited[graph.getVertex(currentVertex, j)]==0)
                     {
-                        pQueue.add(graph.vertex[currentVertex][j]);
-                        wasVisited[graph.vertex[currentVertex][j]]=1;
+                        pQueue.add(graph.getVertex(currentVertex, j));
+                        wasVisited[graph.getVertex(currentVertex, j)]=1;
                     }
                 }
             }

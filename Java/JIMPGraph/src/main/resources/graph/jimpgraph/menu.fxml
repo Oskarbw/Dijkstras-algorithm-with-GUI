@@ -80,12 +80,12 @@
       <Text fill="WHITE" layoutX="381.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" />
       <Text layoutX="24.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Min" />
       <Text fill="WHITE" layoutX="172.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dane wyjściowe" />
-      <TextField fx:id="rowsTextField" layoutX="522.0" layoutY="112.0" onAction="#submitRows" prefHeight="16.0" prefWidth="47.0" text="15" />
-      <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" onAction="#submitColumns" prefHeight="0.0" prefWidth="47.0" text="15" />
-      <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" onAction="#submitMin" prefHeight="0.0" prefWidth="47.0" text="0" />
-      <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" onAction="#submitMax" prefHeight="0.0" prefWidth="47.0" text="1" />
-      <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" onAction="#submitStartDijkstra" prefHeight="0.0" prefWidth="47.0" text="0" />
-      <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" onAction="#submitEndDijkstra" prefHeight="0.0" prefWidth="47.0" text="1" />
+      <TextField fx:id="rowsTextField" layoutX="522.0" layoutY="112.0" prefHeight="16.0" prefWidth="47.0" text="15" />
+      <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" prefHeight="0.0" prefWidth="47.0" text="15" />
+      <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" prefHeight="0.0" prefWidth="47.0" text="0" />
+      <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" prefHeight="0.0" prefWidth="47.0" text="1" />
+      <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" prefHeight="0.0" prefWidth="47.0" text="0" />
+      <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" prefHeight="0.0" prefWidth="47.0" text="1" />
       <TextArea fx:id="standardOutput" editable="false" layoutX="14.0" layoutY="448.0" prefHeight="142.0" prefWidth="400.0" />
       <TextField fx:id="readFileTextField" editable="false" layoutX="13.0" layoutY="564.0" onAction="#submitPath" prefHeight="25.0" prefWidth="386.0" visible="false" />
       <TextField fx:id="getPathToGraphTextField" editable="false" layoutX="14.0" layoutY="536.0" text="Podaj ścieżkę do pliku:" visible="false" />

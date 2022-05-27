@@ -43,8 +43,6 @@ public class HelloController {
 
     Dijkstra dijkstra = new Dijkstra();
 
-    Bfs bfs = new Bfs();
-
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
@@ -91,44 +89,30 @@ public class HelloController {
         }
     }
 
-
-
-    public void submitStartDijkstra(ActionEvent event){
-        if(isGraphGenerated) {
-            try {
-                startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
-                if (startDijkstra < 0 || startDijkstra > graph.getRows() * graph.getColumns()){
-                    throw new NumberFormatException();
-                }
-            } catch (NumberFormatException e) {
-                startDijkstra = 0;
-                startDijkstraTextField.setText("0");
-                standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
+    void submitDijkstraPoints(){
+        try {
+            startDijkstra = Integer.parseInt(startDijkstraTextField.getText());
+            if (startDijkstra < 0 || startDijkstra > graph.getRows() * graph.getColumns()){
+                throw new NumberFormatException();
             }
+        } catch (NumberFormatException e) {
+            startDijkstra = 0;
+            startDijkstraTextField.setText("0");
+            standardOutput.appendText("Blad zwiazany z wierzcholkiem startowym! Ustawiono wartosc domyslna\n");
         }
-        else{
-            standardOutput.appendText("Nie wygenerowano grafu!\n");
+        try {
+            endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
+            if (endDijkstra < 0 || (endDijkstra > graph.getRows() * graph.getColumns() && endDijkstra != 1)) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            endDijkstra = 1;
+            endDijkstraTextField.setText("1");
+            standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! Ustawiono wartosc domyslna\n");
         }
     }
-
-    public void submitEndDijkstra(ActionEvent event){
-        if(isGraphGenerated) {
-            try {
-                endDijkstra = Integer.parseInt(endDijkstraTextField.getText());
-                if (endDijkstra < 0 || endDijkstra > graph.getRows() * graph.getColumns()) {
-                    throw new NumberFormatException();
-                }
-            } catch (NumberFormatException e) {
-                endDijkstra = 1;
-                endDijkstraTextField.setText("1");
-                standardOutput.appendText("Blad zwiazany z wierzcholkiem koncowym! Ustawiono wartosc domyslna\n");
-            }
-        }
-        else{
-            standardOutput.appendText("Nie wygenerowano grafu!\n");
-        }
-    }
-    public void submitRows(ActionEvent event){
+    public void submitGraphSpecs(){
+        standardOutput.setText("");
         try{
             rowsN = Integer.parseInt(rowsTextField.getText());
             if (rowsN < 2){
@@ -140,9 +124,6 @@ public class HelloController {
             rowsTextField.setText("15");
             standardOutput.appendText("Blad zwiazany z wierszami! Ustawiono wartosc domyslna!\n");
         }
-    }
-
-    public void submitColumns(ActionEvent event){
         try{
             colsN = Integer.parseInt(columnsTextField.getText());
             if (colsN < 2){
@@ -154,9 +135,6 @@ public class HelloController {
             columnsTextField.setText("15");
             standardOutput.appendText("Blad zwiazany z kolumnami! Ustawiono wartosc domyslna!\n");
         }
-    }
-
-    public void submitMin(ActionEvent event){
         try{
             minN = Double.parseDouble(minWeightTextField.getText());
         }
@@ -165,8 +143,6 @@ public class HelloController {
             minWeightTextField.setText("0");
             standardOutput.appendText("Blad zwiazany z minimalna waga! Ustawiono wartosc domyslna!\n");
         }
-    }
-    public void submitMax(ActionEvent event){
         try{
             maxN = Double.parseDouble(maxWeightTextField.getText());
         }
@@ -176,11 +152,13 @@ public class HelloController {
             standardOutput.appendText("Blad zwiazany z maksymalna waga! Ustawiono wartosc domyslna!\n");
         }
     }
+
     public void generateGraph(ActionEvent event){
         if(mode != 0) {
+            submitGraphSpecs();
             isGraphGenerated = true;
-            graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
-            standardOutput.setText("Generowanie grafu!\nWlasciwosci:\n");
+            graph.initializeGraph(rowsN,Integer.parseInt(columnsTextField.getText()),minN,maxN,mode);
+            standardOutput.appendText("Generowanie grafu!\nWlasciwosci:\n");
             switch (mode) {
                 case 1 -> {
                     standardOutput.appendText("\nTryb kartka w kratke\n");
@@ -207,31 +185,30 @@ public class HelloController {
     }
 
     public void searchGraph(ActionEvent event){
-
-
+        submitDijkstraPoints();
         LinkedList<Integer> path;
-        if(isGraphGenerated){
+        if(!isGraphGenerated){
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
+        }
+        else{
             if(dijkstra.dijkstra(graph, startDijkstra, endDijkstra)!=null) {
                 path = dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
                 standardOutput.appendText("Znaleziona sciezka " + path.toString() + "\n");
 
                 int tmp2 = path.removeFirst();
                 double tmpLength;
-                String withWeightsCommunicate = new String();
-                withWeightsCommunicate = String.valueOf(tmp2);
+                StringBuilder withWeightsCommunicate;
+                withWeightsCommunicate = new StringBuilder(String.valueOf(tmp2));
                 while (!path.isEmpty()) {
 
                     tmpLength = dijkstra.pathLength[path.peekFirst()] - dijkstra.pathLength[tmp2];
                     tmp2 = path.removeFirst();
-                    withWeightsCommunicate = withWeightsCommunicate + "-(" + String.format("%.03f", tmpLength) + ")->" + tmp2;
+                    withWeightsCommunicate.append("-(").append(String.format("%.03f", tmpLength)).append(")->").append(tmp2);
                 }
                 standardOutput.appendText("Z wagami: " + withWeightsCommunicate + "\n");
             }
             else
                 standardOutput.appendText("Sciezka nie istnieje!" + "\n");
-        }
-        else{
-            standardOutput.appendText("Nie wygenerowano grafu!\n");
         }
     }
 
@@ -261,7 +238,7 @@ public class HelloController {
 
     public void runBfs(ActionEvent event){
         if(isGraphGenerated) {
-            if (bfs.BFS(graph, 0) == 1)
+            if (Bfs.BFS(graph, 0) == 1)
                 standardOutput.appendText("Graf jest spójny!\n");
             else
                 standardOutput.appendText("Graf jest niespójny\n");

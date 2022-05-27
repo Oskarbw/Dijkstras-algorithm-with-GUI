@@ -9,24 +9,24 @@ public class Generator {
             int currentNumOfNeighbours = 0;
             Random rand = new Random();
             if (vertexCount % graph.getColumns() != 0) {
-                graph.vertex[vertexCount][currentNumOfNeighbours] = (vertexCount - 1);
-                graph.weight[vertexCount][currentNumOfNeighbours] = rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight();
+                graph.setVertex(vertexCount, currentNumOfNeighbours, vertexCount-1);
+                graph.setWeight(vertexCount, currentNumOfNeighbours, rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight());
                 currentNumOfNeighbours++;
             }
             if (vertexCount % graph.getColumns() != (graph.getColumns() - 1)) {
-                graph.vertex[vertexCount][currentNumOfNeighbours] = (vertexCount + 1);
-                graph.weight[vertexCount][currentNumOfNeighbours] = rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight();
+                graph.setVertex(vertexCount, currentNumOfNeighbours, (vertexCount + 1));
+                graph.setWeight(vertexCount, currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
                 currentNumOfNeighbours++;
             }
             if (vertexCount >= graph.getColumns()) {
-                graph.vertex[vertexCount][currentNumOfNeighbours] = (vertexCount - graph.getColumns());
-                graph.weight[vertexCount][currentNumOfNeighbours] = rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight();
+                graph.setVertex(vertexCount,currentNumOfNeighbours,((vertexCount - graph.getColumns())));
+                graph.setWeight(vertexCount,currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
                 currentNumOfNeighbours++;
             }
 
             if(vertexCount < (graph.getRows() * graph.getColumns()) - graph.getColumns()){
-                graph.vertex[vertexCount][currentNumOfNeighbours] = (vertexCount + graph.getColumns());
-                graph.weight[vertexCount][currentNumOfNeighbours] = rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight();
+                graph.setVertex(vertexCount,currentNumOfNeighbours, ((vertexCount + graph.getColumns())));
+                graph.setWeight(vertexCount,currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
                 currentNumOfNeighbours++;
             }
         }
@@ -41,11 +41,11 @@ public class Generator {
         generateRandWeightMode(graph);
         for(int i=0; i < (graph.getRows() * graph.getColumns()); i++){
             for(int j=0; j< graph.directions; j++){
-                if (graph.vertex[i][j] == graph.noConnection){
+                if (graph.getVertex(i,j) == graph.noConnection){
                     continue;
                 }
                 if(rand.nextInt(10) > probability){
-                    graph.vertex[i][j] = graph.noConnection;
+                    graph.setVertex(i,j, graph.noConnection);
                 }
             }
         }

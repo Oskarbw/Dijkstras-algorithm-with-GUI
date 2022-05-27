@@ -11,8 +11,23 @@ public class Graph {
     private double max;
 
 
-    public int[][] vertex;
-    public double[][] weight;
+    private int[][] vertex;
+    private double[][] weight;
+
+    int getVertex(int a, int b){
+        return vertex[a][b];
+    }
+    double getWeight(int a, int b) {
+        return weight[a][b];
+    }
+
+    void setVertex(int a, int b, int c){
+        vertex[a][b] = c;
+    }
+
+    void setWeight(int a, int b, double c){
+        weight[a][b] = c;
+    }
 
    int getRows(){
         return rows;
