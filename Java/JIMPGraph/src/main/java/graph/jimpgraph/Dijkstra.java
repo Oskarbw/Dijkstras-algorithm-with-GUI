@@ -7,13 +7,13 @@ import java.util.Comparator;
 class TheComparator implements Comparator<Integer> {
     public int compare(Integer a, Integer b)
     {
-        if (Dijkstra.pathLength[a]>Dijkstra.pathLength[b]){
+        if (Dijkstra.getPathLength(a)>Dijkstra.getPathLength(b)){
             return 1;
         }
-        else if (Dijkstra.pathLength[a]<Dijkstra.pathLength[b]){
+        else if (Dijkstra.getPathLength(a)<Dijkstra.getPathLength(b)){
             return -1;
         }
-        else if (Dijkstra.pathLength[a]==Dijkstra.pathLength[b]){
+        else if (Dijkstra.getPathLength(a)==Dijkstra.getPathLength(b)){
             return 0;
         }
         else return -99;
@@ -24,11 +24,12 @@ class TheComparator implements Comparator<Integer> {
 public class Dijkstra {
     final static double INFINITY = 1000000;
     static PriorityQueue<Integer> pQueue;
-    static double[] pathLength;
+    private static double[] pathLength;
 
-
+    public static double getPathLength(int a){
+        return pathLength[a];
+    }
     public LinkedList<Integer> dijkstra (Graph graph, int start, int destination) {
-
         LinkedList<Integer> path;
         int n = graph.getRows()*graph.getColumns();
         path = new LinkedList<>();
@@ -71,7 +72,6 @@ public class Dijkstra {
         }
         if(pathLength[destination]==INFINITY)
         {
-            path.clear();
             return null;
         }
 

@@ -28,22 +28,22 @@ public class Graph {
     void setWeight(int a, int b, double c){
         weight[a][b] = c;
     }
-
-   int getRows(){
+    int getRows(){
         return rows;
-   }
-   int getColumns(){
+    }
+    int getColumns(){
        return columns;
-   }
-   int getMode(){
-       return mode;
-   }
-   double getMinWeight(){
+    }
+    double getMinWeight(){
        return min;
-   }
-   double getMaxWeight(){
+    }
+    double getMaxWeight(){
        return max;
-   }
+    }
+
+    int getMode(){
+        return mode;
+    }
 
     void initializeGraph(int r, int c, double minG, double maxG, int m){
         rows = r;

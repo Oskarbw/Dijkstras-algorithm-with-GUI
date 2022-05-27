@@ -27,7 +27,6 @@ public class Generator {
             if(vertexCount < (graph.getRows() * graph.getColumns()) - graph.getColumns()){
                 graph.setVertex(vertexCount,currentNumOfNeighbours, ((vertexCount + graph.getColumns())));
                 graph.setWeight(vertexCount,currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
-                currentNumOfNeighbours++;
             }
         }
     }

@@ -42,10 +42,4 @@ public class Bfs {
         return haveAllVertexesBeenVisited;
 
     }
-
-
-    public static String isConstCommunicate (Graph graph){
-        if(BFS(graph,0) == 1) return "Graf jest spójny!";
-        else return "Graf jest niespójny!";
-    }
 }

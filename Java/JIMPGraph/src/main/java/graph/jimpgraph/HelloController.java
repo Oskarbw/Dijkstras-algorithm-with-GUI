@@ -1,6 +1,5 @@
 package graph.jimpgraph;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -54,7 +53,7 @@ public class HelloController {
     int rowsN = defaultGraphSize, colsN = defaultGraphSize;
     double minN = defaultMinimum, maxN = defaultMaximum;
 
-    public void setRandWeightMode(ActionEvent event){
+    public void setRandWeightMode(){
         if(!randWeightModeCheckBox.isSelected()){
             randWeightModeCheckBox.setSelected(false);
         }
@@ -66,7 +65,7 @@ public class HelloController {
         }
 
     }
-    public void setAllRandMode(ActionEvent event){
+    public void setAllRandMode(){
         if(!allRandModeCheckBox.isSelected()){
             allRandModeCheckBox.setSelected(false);
         }
@@ -77,7 +76,7 @@ public class HelloController {
             mode = 2;
         }
     }
-    public void setConMode(ActionEvent event){
+    public void setConMode(){
         if(!conModeCheckBox.isSelected()){
             conModeCheckBox.setSelected(false);
         }
@@ -153,13 +152,13 @@ public class HelloController {
         }
     }
 
-    public void generateGraph(ActionEvent event){
+    public void generateGraph(){
         if(mode != 0) {
             submitGraphSpecs();
             isGraphGenerated = true;
-            graph.initializeGraph(rowsN,Integer.parseInt(columnsTextField.getText()),minN,maxN,mode);
+            graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
             standardOutput.appendText("Generowanie grafu!\nWlasciwosci:\n");
-            switch (mode) {
+            switch (graph.getMode()) {
                 case 1 -> {
                     standardOutput.appendText("\nTryb kartka w kratke\n");
                     generate.generateRandWeightMode(graph);
@@ -184,7 +183,7 @@ public class HelloController {
         }
     }
 
-    public void searchGraph(ActionEvent event){
+    public void searchGraph(){
         submitDijkstraPoints();
         LinkedList<Integer> path;
         if(!isGraphGenerated){
@@ -201,7 +200,7 @@ public class HelloController {
                 withWeightsCommunicate = new StringBuilder(String.valueOf(tmp2));
                 while (!path.isEmpty()) {
 
-                    tmpLength = dijkstra.pathLength[path.peekFirst()] - dijkstra.pathLength[tmp2];
+                    tmpLength = Dijkstra.getPathLength(path.peekFirst()) - Dijkstra.getPathLength(tmp2);
                     tmp2 = path.removeFirst();
                     withWeightsCommunicate.append("-(").append(String.format("%.03f", tmpLength)).append(")->").append(tmp2);
                 }
@@ -212,13 +211,13 @@ public class HelloController {
         }
     }
 
-    public void readGraph(ActionEvent event){
+    public void readGraph(){
         getPathToGraphTextField.setVisible(true);
         readFileTextField.setVisible(true);
         readFileTextField.setEditable(true);
     }
 
-    public void submitPath(ActionEvent event){
+    public void submitPath(){
         String path = readFileTextField.getText();
         readFileTextField.setVisible(false);
         readFileTextField.setEditable(false);
@@ -236,7 +235,7 @@ public class HelloController {
         }
     }
 
-    public void runBfs(ActionEvent event){
+    public void runBfs(){
         if(isGraphGenerated) {
             if (Bfs.BFS(graph, 0) == 1)
                 standardOutput.appendText("Graf jest spójny!\n");
