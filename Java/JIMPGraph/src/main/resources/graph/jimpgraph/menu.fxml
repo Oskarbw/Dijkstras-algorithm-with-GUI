@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graph.jimpgraph.HelloController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graph.jimpgraph.HelloController">
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cdcdcd" height="600.0" scaleZ="0.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bcbcbc" height="100.0" layoutX="436.0" layoutY="264.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
       <Rectangle arcHeight="5.0" fill="#bcbcbc" height="240.0" layoutX="436.0" layoutY="14.0" stroke="BLACK" strokeLineCap="ROUND" strokeType="INSIDE" width="150.0" />
@@ -67,7 +67,7 @@
                   </Stop>
                   <Stop offset="1.0">
                      <color>
-                        <Color green="0.5176470875740051" blue="1.0" />
+                        <Color green="0.5647059082984924" blue="1.0" />
                      </color>
                   </Stop>
                </stops>

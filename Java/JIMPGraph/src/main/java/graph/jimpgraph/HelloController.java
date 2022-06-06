@@ -4,9 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
+
+import static javafx.scene.paint.Color.WHITE;
 
 public class HelloController {
     @FXML
@@ -33,11 +40,18 @@ public class HelloController {
     private TextField endDijkstraTextField;
     @FXML
     private TextField readFileTextField;
+    @FXML
+    private AnchorPane mainPane;
 
     Graph graph = new Graph();
     final int defaultGraphSize = 15;
     final double defaultMinimum = 0;
     final double defaultMaximum = 1;
+
+    final int graphDisplayWidth = 400;
+    final int graphDisplayHeight = 376;
+    final int graphDisplayStartPositionX = 14;
+    final int graphDisplayStartPositionY = 15;
 
     boolean isGraphGenerated = false;
 
@@ -173,6 +187,49 @@ public class HelloController {
         }
     }
 
+    public void drawGraph(){
+        Rectangle background = new Rectangle();
+        background.setFill(Color.valueOf("#616161"));
+        background.setX(graphDisplayStartPositionX);
+        background.setY(graphDisplayStartPositionY);
+        background.setHeight(graphDisplayHeight);
+        background.setWidth(graphDisplayWidth);
+        mainPane.getChildren().add(background);
+        int vertexToVertexWidth = graphDisplayWidth / (graph.getColumns() + 1);
+        int vertexToVertexHeight = graphDisplayHeight / (graph.getRows() + 1);
+        Circle[] vertex = new Circle[graph.getRows() * graph.getColumns()];
+        Line[] connection = new Line[graph.getRows() * graph.getColumns() * graph.directions];
+        for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()){
+            for(int j = 0; j<graph.getColumns(); j++) {
+                vertex[i+j] = new Circle();
+                vertex[i+j].setCenterX(14 + (j + 1) * vertexToVertexWidth);
+                vertex[i+j].setCenterY(15 + (((i/graph.getColumns()) + 1) * vertexToVertexHeight));
+                if(vertexToVertexHeight > vertexToVertexWidth)
+                    vertex[i+j].setRadius((vertexToVertexWidth-1)/4);
+                else
+                    vertex[i+j].setRadius((vertexToVertexHeight-1)/4);
+                vertex[i+j].setFill(WHITE);
+                mainPane.getChildren().add(vertex[i+j]);
+            }
+        }
+        for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()) {
+            for (int j = 0; j < graph.getColumns(); j++) {
+                for(int k = 0; k < graph.directions; k++){
+                    if(graph.getVertex(i+j,k) != graph.noConnection){
+                        connection[i+j] = new Line();
+                        connection[i+j].setStartX(vertex[i+j].getCenterX());
+                        connection[i+j].setStartY(vertex[i+j].getCenterY());
+                        connection[i+j].setEndX(vertex[graph.getVertex(i+j,k)].getCenterX());
+                        connection[i+j].setEndY(vertex[graph.getVertex(i+j,k)].getCenterY());
+                        connection[i+j].setStrokeWidth(vertex[i+j].getRadius()/8);
+                        connection[i+j].setStroke(Color.valueOf(graph.getColorOfWeight(i+j,k)));
+
+                        mainPane.getChildren().add(connection[i+j]);
+                    }
+                }
+            }
+        }
+    }
     public void generateGraph(){
         if(mode != 0) {
             submitGraphSpecs();
@@ -194,6 +251,7 @@ public class HelloController {
                 }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
+            drawGraph();
             standardOutput.appendText("Wiersze: "+graph.getRows()+"\n");
             standardOutput.appendText("Kolumny: "+graph.getColumns()+"\n");
             standardOutput.appendText("Dolny zakres: "+graph.getMinWeight()+"\n");

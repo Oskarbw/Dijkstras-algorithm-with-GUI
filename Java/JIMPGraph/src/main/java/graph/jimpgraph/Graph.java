@@ -9,6 +9,7 @@ public class Graph {
     private int mode;
     private double min;
     private double max;
+    final int differentColors = 5;
 
 
     private int[][] vertex;
@@ -40,7 +41,19 @@ public class Graph {
     double getMaxWeight(){
        return max;
     }
-
+    String getColorOfWeight(int a, int b){
+        double diffrence = (getMaxWeight() - getMinWeight()) / differentColors;
+        if(getWeight(a,b) < diffrence)
+            return "WHITE";
+        if(getWeight(a,b) < diffrence*2)
+            return "#bee1ff";
+        if(getWeight(a,b) < diffrence*3)
+            return "#81c6ff";
+        if(getWeight(a,b) < diffrence*4)
+            return "#42aaff";
+        else
+            return "#0090ff";
+    }
     int getMode(){
         return mode;
     }
