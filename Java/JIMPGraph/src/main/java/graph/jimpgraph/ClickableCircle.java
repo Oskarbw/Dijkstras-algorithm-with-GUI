@@ -2,12 +2,17 @@ package graph.jimpgraph;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 import static graph.jimpgraph.HelloController.*;
 import static javafx.scene.paint.Color.*;
 
 public class ClickableCircle extends Circle {
+
+    static boolean isGreenChosen = false;
+    static boolean isRedChosen = false;
 
     public ClickableCircle(){
         this.setOnMouseClicked(onMousePressedEventHandler());
@@ -19,26 +24,32 @@ public class ClickableCircle extends Circle {
     public void setRedColor(){
         this.setFill(RED);
     }
-    public void setBlackColor(){
-        this.setFill(BLACK);
-    }
+    public void setBlackColor(){ this.setFill(BLACK); }
 
+    public Paint getColor() { return this.getFill(); }
 
     private EventHandler<MouseEvent> onMousePressedEventHandler() {
         return event ->{
-            if(numberOfClick == 0 && !isGreenChosen){
-                isGreenChosen = true;
+            if(!isGreenChosen && getColor()==BLACK){
                 setGreenColor();
-                numberOfClick = 1;
+                isGreenChosen = true;
             }
-            else if(numberOfClick == 1 && !isRedChosen){
-                isRedChosen = true;
+            else if(isGreenChosen && getColor()==GREEN && !isRedChosen){
                 setRedColor();
-                numberOfClick = 2;
+                isGreenChosen = false;
+                isRedChosen = true;
             }
-            else{
+            else if(!isRedChosen){
+                setRedColor();
+                isRedChosen = true;
+            }
+            else if(isRedChosen && getColor()==RED){
                 setBlackColor();
-                numberOfClick = 0;
+                isRedChosen = false;
+            }
+            else if(isGreenChosen && isRedChosen && (getColor() == GREEN || getColor() == RED)){
+                isGreenChosen = false;
+                setBlackColor();
             }
         };
     }

@@ -8,6 +8,8 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
@@ -32,11 +34,11 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#616161" height="25.0" layoutX="14.0" layoutY="423.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
       <Text layoutX="450.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
       <Text layoutX="450.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Koniec" />
-      <Button layoutX="442.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGraph" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
+      <Button layoutX="438.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGraph" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
       <CheckBox fx:id="colorWeightCheckBox" layoutX="450.0" layoutY="415.0" mnemonicParsing="false" onAction="#onActivateColorCheckBox" prefHeight="17.0" prefWidth="122.0" text="Koloruj wagi" />
       <CheckBox fx:id="onlyPathCheckBox" layoutX="450.0" layoutY="440.0" mnemonicParsing="false" onAction="#onActivateColorCheckBox" prefHeight="17.0" prefWidth="122.0" text="Tylko scieżka" />
       <Text fill="WHITE" layoutX="484.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generator" />
-      <Text fill="WHITE" layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
+      <Text fill="WHITE" layoutX="462.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
       <Text fill="WHITE" layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
       <Button layoutX="445.0" layoutY="545.0" mnemonicParsing="false" onAction="#runBfs" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
       <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" onAction="#readGraph" text="Wczytaj" />
@@ -82,9 +84,14 @@
       <TextField fx:id="columnsTextField" layoutX="522.0" layoutY="138.0" prefHeight="0.0" prefWidth="47.0" text="15" />
       <TextField fx:id="minWeightTextField" layoutX="522.0" layoutY="164.0" prefHeight="0.0" prefWidth="47.0" text="0" />
       <TextField fx:id="maxWeightTextField" layoutX="522.0" layoutY="190.0" prefHeight="0.0" prefWidth="47.0" text="1" />
-      <TextField fx:id="startDijkstraTextField" layoutX="522.0" layoutY="290.0" prefHeight="0.0" prefWidth="47.0" text="0" />
-      <TextField fx:id="endDijkstraTextField" layoutX="522.0" layoutY="318.0" prefHeight="0.0" prefWidth="47.0" text="1" />
+      <TextField fx:id="startDijkstraTextField" layoutX="487.0" layoutY="290.0" prefHeight="0.0" prefWidth="47.0" text="0" />
+      <TextField fx:id="endDijkstraTextField" layoutX="487.0" layoutY="315.0" prefHeight="0.0" prefWidth="47.0" text="1" />
       <TextArea fx:id="standardOutput" editable="false" layoutX="14.0" layoutY="448.0" prefHeight="140.0" prefWidth="400.0" />
       <TextField fx:id="readFileTextField" editable="false" layoutX="13.0" layoutY="564.0" onAction="#submitPath" prefHeight="25.0" prefWidth="386.0" visible="false" />
       <TextField fx:id="getPathToGraphTextField" editable="false" layoutX="14.0" layoutY="536.0" text="Podaj ścieżkę do pliku:" visible="false" />
+   <Button layoutX="534.0" layoutY="336.0" mnemonicParsing="false" onAction="#dijkstraGraphical" text="Szukaj" />
+   <Line endY="73.0" layoutX="535.0" layoutY="289.0" startY="-24.0" />
+   <Text layoutX="544.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   <Circle fill="GREEN" layoutX="546.0" layoutY="310.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
+   <Circle fill="RED" layoutX="574.0" layoutY="310.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" />
 </AnchorPane>

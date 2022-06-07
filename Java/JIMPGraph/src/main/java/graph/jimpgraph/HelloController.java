@@ -5,9 +5,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
 
 import java.io.FileNotFoundException;
+
+import static javafx.scene.paint.Color.GREEN;
+import static javafx.scene.paint.Color.RED;
 
 public class HelloController {
     @FXML
@@ -41,17 +43,16 @@ public class HelloController {
     @FXML
     AnchorPane mainPane;
 
-    public static int numberOfClick = 0;
-    public static boolean isGreenChosen = false;
-    public static boolean isRedChosen = false;
-
     ClickableCircle[] clickableCircle;
     Graph graph = new Graph();
     boolean isGraphGenerated = false;
     boolean isDijkstraUsed = false;
+    boolean isGraphicalDijkstraUsed = false;
     final int justDrawGraph = -1;
-    int startDijkstra = 0, endDijkstra = 1;
+    static int startDijkstra = 0, endDijkstra = 1;
     int mode = 0;
+
+
 
     public void setRandWeightMode(){
         mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 1);
@@ -61,6 +62,34 @@ public class HelloController {
     }
     public void setConMode(){
         mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 3);
+    }
+    public void dijkstraGraphical(){
+        boolean startFound = false, endFound = false;
+        if(!isGraphGenerated){
+            standardOutput.appendText("Nie wygenerowano grafu!\n");
+            return;
+        }
+        for(int i=0; i<clickableCircle.length; i++){
+            if(clickableCircle[i].getFill() == GREEN){
+                startDijkstra = i;
+                startFound = true;
+            }
+            if(clickableCircle[i].getFill() == RED){
+                endDijkstra = i;
+                endFound = true;
+            }
+
+        }
+        if(startFound && endFound) {
+            clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
+                    standardOutput, colorWeightCheckBox, onlyPathCheckBox);
+            clickableCircle[startDijkstra].setGreenColor();
+            clickableCircle[endDijkstra].setRedColor();
+            isDijkstraUsed = true;
+            isGraphicalDijkstraUsed = true;
+        }
+        else
+            standardOutput.appendText("Nie zaznaczyłeś wierzchołków!\n");
     }
 
     void submitDijkstraPoints(){
@@ -100,9 +129,14 @@ public class HelloController {
             if(!isDijkstraUsed)
                 clickableCircle = Display.drawGraph(mainPane, graph, justDrawGraph, justDrawGraph,
                     standardOutput, colorWeightCheckBox, onlyPathCheckBox);
-            else
+            else {
                 clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
                         standardOutput, colorWeightCheckBox, onlyPathCheckBox);
+                if(isGraphicalDijkstraUsed) {
+                    clickableCircle[startDijkstra].setGreenColor();
+                    clickableCircle[endDijkstra].setRedColor();
+                }
+            }
         }
     }
 
@@ -110,7 +144,10 @@ public class HelloController {
         if(mode != 0) {
             submitGraphSpecs();
             isDijkstraUsed = false;
+            isGraphicalDijkstraUsed = false;
             isGraphGenerated = true;
+            ClickableCircle.isGreenChosen = false;
+            ClickableCircle.isRedChosen = false;
             graph.initializeGraph(graph.getRowsN(), graph.getColumnsN(), graph.getMinWeightN(), graph.getMaxWeightN(), mode);
             standardOutput.appendText("Generowanie grafu!\nWlasciwosci:\n");
             switch (graph.getMode()) {
@@ -146,6 +183,8 @@ public class HelloController {
             isDijkstraUsed = true;
             clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
                     standardOutput, colorWeightCheckBox, onlyPathCheckBox);
+            ClickableCircle.isRedChosen = false;
+            ClickableCircle.isGreenChosen = false;
         }
         else
             standardOutput.appendText("Nie wygenerowano grafu!\n");

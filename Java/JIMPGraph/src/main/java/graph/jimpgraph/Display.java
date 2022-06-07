@@ -5,7 +5,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
@@ -24,7 +23,7 @@ public class Display extends HelloController{
         standardOutput.setText("");
         try{
             graph.setRowsN(Integer.parseInt(rowsTextField.getText()));
-            if (graph.getRowsN() < 2 || graph.getRowsN() > 1000){
+            if (graph.getRowsN() < 2 || graph.getRowsN() > 100){
                 standardOutput.appendText("Blad zwiazany z wierszami! |"+graph.getRowsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
                 graph.setRowsN(15);
                 rowsTextField.setText("15");
@@ -37,7 +36,7 @@ public class Display extends HelloController{
         }
         try{
             graph.setColumnsN(Integer.parseInt(columnsTextField.getText()));
-            if (graph.getColumnsN() < 2 || graph.getColumnsN() > 1000){
+            if (graph.getColumnsN() < 2 || graph.getColumnsN() > 100){
                 standardOutput.appendText("Blad zwiazany z kolumnami! |"+graph.getColumnsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
                 graph.setColumnsN(15);
                 columnsTextField.setText("15");
