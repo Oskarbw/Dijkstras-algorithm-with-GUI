@@ -5,8 +5,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
+
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
 
 public class HelloController {
     @FXML
@@ -19,6 +20,10 @@ public class HelloController {
     CheckBox conModeCheckBox;
     @FXML
     CheckBox randWeightModeCheckBox;
+    @FXML
+    CheckBox colorWeightCheckBox;
+    @FXML
+    CheckBox onlyPathCheckBox;
     @FXML
     TextField rowsTextField;
     @FXML
@@ -35,9 +40,16 @@ public class HelloController {
     TextField readFileTextField;
     @FXML
     AnchorPane mainPane;
+
+    public static int numberOfClick = 0;
+    public static boolean isGreenChosen = false;
+    public static boolean isRedChosen = false;
+
+    ClickableCircle[] clickableCircle;
     Graph graph = new Graph();
     boolean isGraphGenerated = false;
-
+    boolean isDijkstraUsed = false;
+    final int justDrawGraph = -1;
     int startDijkstra = 0, endDijkstra = 1;
     int mode = 0;
 
@@ -78,74 +90,26 @@ public class HelloController {
         }
     }
     public void submitGraphSpecs(){
-        standardOutput.setText("");
-        try{
-            graph.setRowsN(Integer.parseInt(rowsTextField.getText()));
-            if (graph.getRowsN() < 2 || graph.getRowsN() > 1000){
-                standardOutput.appendText("Blad zwiazany z wierszami! |"+graph.getRowsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-                graph.setRowsN(15);
-                rowsTextField.setText("15");
-            }
-        }
-        catch(NumberFormatException e){
-            standardOutput.appendText("Blad zwiazany z wierszami! |"+graph.getRowsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-            graph.setRowsN(15);
-            rowsTextField.setText("15");
-        }
-        try{
-            graph.setColumnsN(Integer.parseInt(columnsTextField.getText()));
-            if (graph.getColumnsN() < 2 || graph.getColumnsN() > 1000){
-                standardOutput.appendText("Blad zwiazany z kolumnami! |"+graph.getColumnsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-                graph.setColumnsN(15);
-                columnsTextField.setText("15");
-            }
-        }
-        catch(NumberFormatException e){
-            standardOutput.appendText("Blad zwiazany z kolumnami! |"+graph.getColumnsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-            graph.setColumnsN(15);
-            columnsTextField.setText("15");
-        }
-        try{
-            graph.setMinWeightN(Double.parseDouble(minWeightTextField.getText()));
-            if(graph.getMinWeightN() < -10 || graph.getMinWeightN() > 10){
-                graph.setMinWeightN(0);
-                minWeightTextField.setText("0");
-                standardOutput.appendText("Blad zwiazany z minimalna waga! |"+graph.getMinWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-            }
-        }
-        catch(NumberFormatException e){
-            graph.setMinWeightN(0);
-            minWeightTextField.setText("0");
-            standardOutput.appendText("Blad zwiazany z minimalna waga! |"+graph.getMinWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-        }
-        try{
-            graph.setMaxWeightN(Double.parseDouble(maxWeightTextField.getText()));
-            if(graph.getMaxWeightN() - graph.getMinWeightN() <= 0){
-                standardOutput.appendText("Blad! Gorny zakres wag mniejszy od dolnego! Zamieniam miejscami!\n");
-                double temp = graph.getMaxWeightN();
-                graph.setMaxWeightN(graph.getMinWeightN());
-                graph.setMinWeightN(temp);
-                maxWeightTextField.setText(String.valueOf(graph.getMaxWeightN()));
-                minWeightTextField.setText(String.valueOf(graph.getMinWeightN()));
-            }
-            if(graph.getMaxWeightN() - graph.getMinWeightN() > 100){
-                standardOutput.appendText("Blad! Roznica gornego i dolnego zakresu wag jest wieksza niz 100! Ustawiono wartosci domyslne!\n");
-                graph.setMaxWeightN(1);
-                graph.setMinWeightN(0);
-                maxWeightTextField.setText(String.valueOf(graph.getMaxWeightN()));
-                minWeightTextField.setText(String.valueOf(graph.getMinWeightN()));
-            }
-        }
-        catch(NumberFormatException e){
-            graph.setMaxWeightN(1);
-            maxWeightTextField.setText("1");
-            standardOutput.appendText("Blad zwiazany z maksymalna waga! |"+graph.getMaxWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+        Display.initializeGraphSpecs(standardOutput, graph,
+                rowsTextField, columnsTextField,
+                minWeightTextField, maxWeightTextField);
+    }
+
+    public void onActivateColorCheckBox(){
+        if(isGraphGenerated) {
+            if(!isDijkstraUsed)
+                clickableCircle = Display.drawGraph(mainPane, graph, justDrawGraph, justDrawGraph,
+                    standardOutput, colorWeightCheckBox, onlyPathCheckBox);
+            else
+                clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
+                        standardOutput, colorWeightCheckBox, onlyPathCheckBox);
         }
     }
 
     public void generateGraph(){
         if(mode != 0) {
             submitGraphSpecs();
+            isDijkstraUsed = false;
             isGraphGenerated = true;
             graph.initializeGraph(graph.getRowsN(), graph.getColumnsN(), graph.getMinWeightN(), graph.getMaxWeightN(), mode);
             standardOutput.appendText("Generowanie grafu!\nWlasciwosci:\n");
@@ -164,7 +128,8 @@ public class HelloController {
                 }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
-            Display.drawGraph(mainPane, graph);
+            clickableCircle = Display.drawGraph(mainPane, graph, justDrawGraph, justDrawGraph,
+                    standardOutput,colorWeightCheckBox,onlyPathCheckBox);
             standardOutput.appendText("Wiersze: "+graph.getRows()+"\n");
             standardOutput.appendText("Kolumny: "+graph.getColumns()+"\n");
             standardOutput.appendText("Dolny zakres: "+graph.getMinWeight()+"\n");
@@ -176,31 +141,14 @@ public class HelloController {
     }
 
     public void searchGraph(){
-        submitDijkstraPoints();
-        LinkedList<Integer> path;
-        if(!isGraphGenerated){
+        if(isGraphGenerated) {
+            submitDijkstraPoints();
+            isDijkstraUsed = true;
+            clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
+                    standardOutput, colorWeightCheckBox, onlyPathCheckBox);
+        }
+        else
             standardOutput.appendText("Nie wygenerowano grafu!\n");
-        }
-        else{
-            if(Dijkstra.dijkstra(graph, startDijkstra, endDijkstra)!=null) {
-                path = Dijkstra.dijkstra(graph, startDijkstra, endDijkstra);
-                assert path != null;
-                standardOutput.appendText("Znaleziona sciezka " + path + "\n");
-                int tmp2 = path.removeFirst();
-                double tmpLength;
-                StringBuilder withWeightsCommunicate;
-                withWeightsCommunicate = new StringBuilder(String.valueOf(tmp2));
-                while (!path.isEmpty()) {
-
-                    tmpLength = Dijkstra.getPathLength(path.peekFirst()) - Dijkstra.getPathLength(tmp2);
-                    tmp2 = path.removeFirst();
-                    withWeightsCommunicate.append("-(").append(String.format("%.03f", tmpLength)).append(")->").append(tmp2);
-                }
-                standardOutput.appendText("Z wagami: " + withWeightsCommunicate + "\n");
-            }
-            else
-                standardOutput.appendText("Sciezka nie istnieje!" + "\n");
-        }
     }
 
     public void readGraph(){
@@ -237,5 +185,4 @@ public class HelloController {
         else
             standardOutput.appendText("Nie wygenerowano grafu!\n");
     }
-
 }

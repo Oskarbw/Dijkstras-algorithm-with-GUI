@@ -33,8 +33,8 @@
       <Text layoutX="450.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start" />
       <Text layoutX="450.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Koniec" />
       <Button layoutX="442.0" layoutY="336.0" mnemonicParsing="false" onAction="#searchGraph" prefHeight="16.0" prefWidth="50.0" text="Szukaj" />
-      <CheckBox layoutX="450.0" layoutY="416.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Koloruj wagi" />
-      <CheckBox layoutX="450.0" layoutY="440.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Tylko scieżka" />
+      <CheckBox fx:id="colorWeightCheckBox" layoutX="450.0" layoutY="415.0" mnemonicParsing="false" onAction="#onActivateColorCheckBox" prefHeight="17.0" prefWidth="122.0" text="Koloruj wagi" />
+      <CheckBox fx:id="onlyPathCheckBox" layoutX="450.0" layoutY="440.0" mnemonicParsing="false" onAction="#onActivateColorCheckBox" prefHeight="17.0" prefWidth="122.0" text="Tylko scieżka" />
       <Text fill="WHITE" layoutX="484.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Generator" />
       <Text fill="WHITE" layoutX="491.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dijkstra" />
       <Text fill="WHITE" layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
