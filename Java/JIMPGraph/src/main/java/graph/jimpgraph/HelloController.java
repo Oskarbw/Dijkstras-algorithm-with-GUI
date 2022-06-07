@@ -8,11 +8,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
+import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
 public class HelloController {
@@ -199,6 +201,7 @@ public class HelloController {
         int vertexToVertexHeight = graphDisplayHeight / (graph.getRows() + 1);
         Circle[] vertex = new Circle[graph.getRows() * graph.getColumns()];
         Line[] connection = new Line[graph.getRows() * graph.getColumns() * graph.directions];
+        Polygon[] arrow = new Polygon[graph.getRows() * graph.getColumns() * graph.directions * 2];
         for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()){
             for(int j = 0; j<graph.getColumns(); j++) {
                 vertex[i+j] = new Circle();
@@ -208,23 +211,120 @@ public class HelloController {
                     vertex[i+j].setRadius((vertexToVertexWidth-1)/4);
                 else
                     vertex[i+j].setRadius((vertexToVertexHeight-1)/4);
-                vertex[i+j].setFill(WHITE);
+                vertex[i+j].setFill(BLACK);
                 mainPane.getChildren().add(vertex[i+j]);
             }
         }
+
+        double arrowWidth = 0.5;
+        double arrowLength = 1.9;
+        double arrowDistance = 0.8;
+
         for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()) {
             for (int j = 0; j < graph.getColumns(); j++) {
                 for(int k = 0; k < graph.directions; k++){
-                    if(graph.getVertex(i+j,k) != graph.noConnection){
-                        connection[i+j] = new Line();
-                        connection[i+j].setStartX(vertex[i+j].getCenterX());
-                        connection[i+j].setStartY(vertex[i+j].getCenterY());
-                        connection[i+j].setEndX(vertex[graph.getVertex(i+j,k)].getCenterX());
-                        connection[i+j].setEndY(vertex[graph.getVertex(i+j,k)].getCenterY());
-                        connection[i+j].setStrokeWidth(vertex[i+j].getRadius()/8);
-                        connection[i+j].setStroke(Color.valueOf(graph.getColorOfWeight(i+j,k)));
+                    if(graph.getVertex(i+j,k) != graph.noConnection) {
 
+
+
+                        connection[i + j] = new Line();
+                        connection[i + j].setStrokeWidth(vertex[i + j].getRadius() / 8);
+                        connection[i + j].setStroke(Color.BLACK);
+                        switch(k) {
+                            case 0:
+
+                                connection[i + j].setStartX(vertex[i + j].getCenterX() + (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setStartY(vertex[i + j].getCenterY());
+                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() - (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY());
+                                break;
+                            case 1:
+
+                                connection[i + j].setStartX(vertex[i + j].getCenterX());
+                                connection[i + j].setStartY(vertex[i + j].getCenterY()+ (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() );
+                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY()- (arrowLength) * vertex[i + j].getRadius());
+                                break;
+                            case 2:
+
+                                connection[i + j].setStartX(vertex[i + j].getCenterX() - (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setStartY(vertex[i + j].getCenterY());
+                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() + (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY());
+                                break;
+                            case 3:
+
+                                connection[i + j].setStartX(vertex[i + j].getCenterX());
+                                connection[i + j].setStartY(vertex[i + j].getCenterY()- (arrowLength) * vertex[i + j].getRadius());
+                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() );
+                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY()+ (arrowLength) * vertex[i + j].getRadius());
+                                break;
+                        }
+
+
+
+
+                        arrow[i + j] = new Polygon();
+                        switch (k) {
+                            case 0:
+                                arrow[i + j].getPoints().setAll(
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() - arrowDistance * vertex[i + j].getRadius(),
+                                        vertex[graph.getVertex(i + j, k)].getCenterY(),
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowLength,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowWidth,
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() *arrowLength,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowWidth
+
+                                );
+                                break;
+                            case 1:
+                                arrow[i + j].getPoints().setAll(
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() ,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY()- arrowDistance * vertex[i + j].getRadius(),
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowWidth,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowLength,
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowWidth,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowLength
+
+                                );
+                                break;
+                            case 2:
+                                arrow[i + j].getPoints().setAll(
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() + arrowDistance * vertex[i + j].getRadius(),
+                                        vertex[graph.getVertex(i + j, k)].getCenterY(),
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowLength,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowWidth,
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowLength,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowWidth
+
+                                );
+                                break;
+                            case 3:
+                                arrow[i + j].getPoints().setAll(
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() ,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY()+ arrowDistance * vertex[i + j].getRadius(),
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowWidth,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowLength,
+
+                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowWidth,
+                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowLength
+
+                                );
+                                break;
+                        }
+                        arrow[i + j].setFill((Color.valueOf(graph.getColorOfWeight(i + j, k))));
+
+                        mainPane.getChildren().add(arrow[i+j]);
                         mainPane.getChildren().add(connection[i+j]);
+
+
                     }
                 }
             }

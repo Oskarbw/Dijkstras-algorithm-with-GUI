@@ -6,27 +6,27 @@ public class Generator {
     final static int probability = 7;
     static void findNeighbours(Graph graph){
         for(int vertexCount=0; vertexCount < graph.getColumns()*graph.getRows(); vertexCount++) {
-            int currentNumOfNeighbours = 0;
+
             Random rand = new Random();
-            if (vertexCount % graph.getColumns() != 0) {
-                graph.setVertex(vertexCount, currentNumOfNeighbours, vertexCount-1);
-                graph.setWeight(vertexCount, currentNumOfNeighbours, rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight());
-                currentNumOfNeighbours++;
-            }
             if (vertexCount % graph.getColumns() != (graph.getColumns() - 1)) {
-                graph.setVertex(vertexCount, currentNumOfNeighbours, (vertexCount + 1));
-                graph.setWeight(vertexCount, currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
-                currentNumOfNeighbours++;
+                graph.setVertex(vertexCount, 0, (vertexCount + 1));
+                graph.setWeight(vertexCount, 0, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
+
             }
-            if (vertexCount >= graph.getColumns()) {
-                graph.setVertex(vertexCount,currentNumOfNeighbours,((vertexCount - graph.getColumns())));
-                graph.setWeight(vertexCount,currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
-                currentNumOfNeighbours++;
+            if(vertexCount < (graph.getRows() * graph.getColumns()) - graph.getColumns()){
+                graph.setVertex(vertexCount,1, ((vertexCount + graph.getColumns())));
+                graph.setWeight(vertexCount,1, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
+
             }
 
-            if(vertexCount < (graph.getRows() * graph.getColumns()) - graph.getColumns()){
-                graph.setVertex(vertexCount,currentNumOfNeighbours, ((vertexCount + graph.getColumns())));
-                graph.setWeight(vertexCount,currentNumOfNeighbours, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
+            if (vertexCount % graph.getColumns() != 0) {
+                graph.setVertex(vertexCount, 2, vertexCount-1);
+                graph.setWeight(vertexCount, 2, rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight());
+
+            }
+            if (vertexCount >= graph.getColumns()) {
+                graph.setVertex(vertexCount,3,((vertexCount - graph.getColumns())));
+                graph.setWeight(vertexCount,3, (rand.nextDouble() * (graph.getMaxWeight() - graph.getMinWeight()) + graph.getMinWeight()));
             }
         }
     }
