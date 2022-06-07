@@ -5,96 +5,50 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
-
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
-import static javafx.scene.paint.Color.BLACK;
-import static javafx.scene.paint.Color.WHITE;
-
 public class HelloController {
     @FXML
-    private TextField getPathToGraphTextField;
+    TextField getPathToGraphTextField;
     @FXML
-    private TextArea standardOutput;
+    TextArea standardOutput;
     @FXML
-    private CheckBox allRandModeCheckBox;
+    CheckBox allRandModeCheckBox;
     @FXML
-    private CheckBox conModeCheckBox;
+    CheckBox conModeCheckBox;
     @FXML
-    private CheckBox randWeightModeCheckBox;
+    CheckBox randWeightModeCheckBox;
     @FXML
-    private TextField rowsTextField;
+    TextField rowsTextField;
     @FXML
-    private TextField columnsTextField;
+    TextField columnsTextField;
     @FXML
-    private TextField minWeightTextField;
+    TextField minWeightTextField;
     @FXML
-    private TextField maxWeightTextField;
+    TextField maxWeightTextField;
     @FXML
-    private TextField startDijkstraTextField;
+    TextField startDijkstraTextField;
     @FXML
-    private TextField endDijkstraTextField;
+    TextField endDijkstraTextField;
     @FXML
-    private TextField readFileTextField;
+    TextField readFileTextField;
     @FXML
-    private AnchorPane mainPane;
-
+    AnchorPane mainPane;
     Graph graph = new Graph();
-    final int defaultGraphSize = 15;
-    final double defaultMinimum = 0;
-    final double defaultMaximum = 1;
-
-    final int graphDisplayWidth = 400;
-    final int graphDisplayHeight = 376;
-    final int graphDisplayStartPositionX = 14;
-    final int graphDisplayStartPositionY = 15;
-
     boolean isGraphGenerated = false;
 
     int startDijkstra = 0, endDijkstra = 1;
     int mode = 0;
-    int rowsN = defaultGraphSize, colsN = defaultGraphSize;
-    double minN = defaultMinimum, maxN = defaultMaximum;
 
     public void setRandWeightMode(){
-        if(!randWeightModeCheckBox.isSelected()){
-            randWeightModeCheckBox.setSelected(false);
-        }
-        else{
-            allRandModeCheckBox.setSelected(false);
-            conModeCheckBox.setSelected(false);
-            randWeightModeCheckBox.setSelected(true);
-            mode = 1;
-        }
-
+        mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 1);
     }
     public void setAllRandMode(){
-        if(!allRandModeCheckBox.isSelected()){
-            allRandModeCheckBox.setSelected(false);
-        }
-        else{
-            conModeCheckBox.setSelected(false);
-            randWeightModeCheckBox.setSelected(false);
-            allRandModeCheckBox.setSelected(true);
-            mode = 2;
-        }
+        mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 2);
     }
     public void setConMode(){
-        if(!conModeCheckBox.isSelected()){
-            conModeCheckBox.setSelected(false);
-        }
-        else{
-            randWeightModeCheckBox.setSelected(false);
-            allRandModeCheckBox.setSelected(false);
-            conModeCheckBox.setSelected(true);
-            mode = 3;
-        }
+        mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 3);
     }
 
     void submitDijkstraPoints(){
@@ -126,215 +80,74 @@ public class HelloController {
     public void submitGraphSpecs(){
         standardOutput.setText("");
         try{
-            rowsN = Integer.parseInt(rowsTextField.getText());
-            if (rowsN < 2 || rowsN > 1000){
-                standardOutput.appendText("Blad zwiazany z wierszami! |"+rowsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-                rowsN = 15;
+            graph.setRowsN(Integer.parseInt(rowsTextField.getText()));
+            if (graph.getRowsN() < 2 || graph.getRowsN() > 1000){
+                standardOutput.appendText("Blad zwiazany z wierszami! |"+graph.getRowsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+                graph.setRowsN(15);
                 rowsTextField.setText("15");
             }
         }
         catch(NumberFormatException e){
-            standardOutput.appendText("Blad zwiazany z wierszami! |"+rowsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-            rowsN = 15;
+            standardOutput.appendText("Blad zwiazany z wierszami! |"+graph.getRowsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+            graph.setRowsN(15);
             rowsTextField.setText("15");
         }
         try{
-            colsN = Integer.parseInt(columnsTextField.getText());
-            if (colsN < 2 || colsN > 1000){
-                standardOutput.appendText("Blad zwiazany z kolumnami! |"+colsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-                colsN = 15;
+            graph.setColumnsN(Integer.parseInt(columnsTextField.getText()));
+            if (graph.getColumnsN() < 2 || graph.getColumnsN() > 1000){
+                standardOutput.appendText("Blad zwiazany z kolumnami! |"+graph.getColumnsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+                graph.setColumnsN(15);
                 columnsTextField.setText("15");
             }
         }
         catch(NumberFormatException e){
-            standardOutput.appendText("Blad zwiazany z kolumnami! |"+colsN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
-            colsN = 15;
+            standardOutput.appendText("Blad zwiazany z kolumnami! |"+graph.getColumnsN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+            graph.setColumnsN(15);
             columnsTextField.setText("15");
         }
         try{
-            minN = Double.parseDouble(minWeightTextField.getText());
-            if(minN < -10 || minN > 10){
-                minN = 0;
+            graph.setMinWeightN(Double.parseDouble(minWeightTextField.getText()));
+            if(graph.getMinWeightN() < -10 || graph.getMinWeightN() > 10){
+                graph.setMinWeightN(0);
                 minWeightTextField.setText("0");
-                standardOutput.appendText("Blad zwiazany z minimalna waga! |"+minN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+                standardOutput.appendText("Blad zwiazany z minimalna waga! |"+graph.getMinWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
             }
         }
         catch(NumberFormatException e){
-            minN = 0;
+            graph.setMinWeightN(0);
             minWeightTextField.setText("0");
-            standardOutput.appendText("Blad zwiazany z minimalna waga! |"+minN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+            standardOutput.appendText("Blad zwiazany z minimalna waga! |"+graph.getMinWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
         }
         try{
-            maxN = Double.parseDouble(maxWeightTextField.getText());
-            if(maxN - minN <= 0){
+            graph.setMaxWeightN(Double.parseDouble(maxWeightTextField.getText()));
+            if(graph.getMaxWeightN() - graph.getMinWeightN() <= 0){
                 standardOutput.appendText("Blad! Gorny zakres wag mniejszy od dolnego! Zamieniam miejscami!\n");
-                double temp = maxN;
-                maxN = minN;
-                minN = temp;
-                maxWeightTextField.setText(String.valueOf(maxN));
-                minWeightTextField.setText(String.valueOf(minN));
+                double temp = graph.getMaxWeightN();
+                graph.setMaxWeightN(graph.getMinWeightN());
+                graph.setMinWeightN(temp);
+                maxWeightTextField.setText(String.valueOf(graph.getMaxWeightN()));
+                minWeightTextField.setText(String.valueOf(graph.getMinWeightN()));
             }
-            if(maxN - minN > 100){
+            if(graph.getMaxWeightN() - graph.getMinWeightN() > 100){
                 standardOutput.appendText("Blad! Roznica gornego i dolnego zakresu wag jest wieksza niz 100! Ustawiono wartosci domyslne!\n");
-                maxN = 1;
-                minN = 0;
-                maxWeightTextField.setText(String.valueOf(maxN));
-                minWeightTextField.setText(String.valueOf(minN));
+                graph.setMaxWeightN(1);
+                graph.setMinWeightN(0);
+                maxWeightTextField.setText(String.valueOf(graph.getMaxWeightN()));
+                minWeightTextField.setText(String.valueOf(graph.getMinWeightN()));
             }
         }
         catch(NumberFormatException e){
-            maxN = 1;
+            graph.setMaxWeightN(1);
             maxWeightTextField.setText("1");
-            standardOutput.appendText("Blad zwiazany z maksymalna waga! |"+maxN+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
+            standardOutput.appendText("Blad zwiazany z maksymalna waga! |"+graph.getMaxWeightN()+"| to niepoprawna wartość! Ustawiono wartosc domyslna!\n");
         }
     }
 
-    public void drawGraph(){
-        Rectangle background = new Rectangle();
-        background.setFill(Color.valueOf("#616161"));
-        background.setX(graphDisplayStartPositionX);
-        background.setY(graphDisplayStartPositionY);
-        background.setHeight(graphDisplayHeight);
-        background.setWidth(graphDisplayWidth);
-        mainPane.getChildren().add(background);
-        int vertexToVertexWidth = graphDisplayWidth / (graph.getColumns() + 1);
-        int vertexToVertexHeight = graphDisplayHeight / (graph.getRows() + 1);
-        Circle[] vertex = new Circle[graph.getRows() * graph.getColumns()];
-        Line[] connection = new Line[graph.getRows() * graph.getColumns() * graph.directions];
-        Polygon[] arrow = new Polygon[graph.getRows() * graph.getColumns() * graph.directions * 2];
-        for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()){
-            for(int j = 0; j<graph.getColumns(); j++) {
-                vertex[i+j] = new Circle();
-                vertex[i+j].setCenterX(14 + (j + 1) * vertexToVertexWidth);
-                vertex[i+j].setCenterY(15 + (((i/graph.getColumns()) + 1) * vertexToVertexHeight));
-                if(vertexToVertexHeight > vertexToVertexWidth)
-                    vertex[i+j].setRadius((vertexToVertexWidth-1)/4);
-                else
-                    vertex[i+j].setRadius((vertexToVertexHeight-1)/4);
-                vertex[i+j].setFill(BLACK);
-                mainPane.getChildren().add(vertex[i+j]);
-            }
-        }
-
-        double arrowWidth = 0.5;
-        double arrowLength = 1.9;
-        double arrowDistance = 0.8;
-
-        for(int i = 0; i<graph.getRows() * graph.getColumns(); i+=graph.getColumns()) {
-            for (int j = 0; j < graph.getColumns(); j++) {
-                for(int k = 0; k < graph.directions; k++){
-                    if(graph.getVertex(i+j,k) != graph.noConnection) {
-
-
-
-                        connection[i + j] = new Line();
-                        connection[i + j].setStrokeWidth(vertex[i + j].getRadius() / 8);
-                        connection[i + j].setStroke(Color.BLACK);
-                        switch(k) {
-                            case 0:
-
-                                connection[i + j].setStartX(vertex[i + j].getCenterX() + (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setStartY(vertex[i + j].getCenterY());
-                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() - (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY());
-                                break;
-                            case 1:
-
-                                connection[i + j].setStartX(vertex[i + j].getCenterX());
-                                connection[i + j].setStartY(vertex[i + j].getCenterY()+ (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() );
-                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY()- (arrowLength) * vertex[i + j].getRadius());
-                                break;
-                            case 2:
-
-                                connection[i + j].setStartX(vertex[i + j].getCenterX() - (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setStartY(vertex[i + j].getCenterY());
-                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() + (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY());
-                                break;
-                            case 3:
-
-                                connection[i + j].setStartX(vertex[i + j].getCenterX());
-                                connection[i + j].setStartY(vertex[i + j].getCenterY()- (arrowLength) * vertex[i + j].getRadius());
-                                connection[i + j].setEndX(vertex[graph.getVertex(i + j, k)].getCenterX() );
-                                connection[i + j].setEndY(vertex[graph.getVertex(i + j, k)].getCenterY()+ (arrowLength) * vertex[i + j].getRadius());
-                                break;
-                        }
-
-
-
-
-                        arrow[i + j] = new Polygon();
-                        switch (k) {
-                            case 0:
-                                arrow[i + j].getPoints().setAll(
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() - arrowDistance * vertex[i + j].getRadius(),
-                                        vertex[graph.getVertex(i + j, k)].getCenterY(),
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowLength,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowWidth,
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() *arrowLength,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowWidth
-
-                                );
-                                break;
-                            case 1:
-                                arrow[i + j].getPoints().setAll(
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() ,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY()- arrowDistance * vertex[i + j].getRadius(),
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowWidth,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowLength,
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowWidth,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowLength
-
-                                );
-                                break;
-                            case 2:
-                                arrow[i + j].getPoints().setAll(
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() + arrowDistance * vertex[i + j].getRadius(),
-                                        vertex[graph.getVertex(i + j, k)].getCenterY(),
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowLength,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() - vertex[i + j].getRadius() * arrowWidth,
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowLength,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowWidth
-
-                                );
-                                break;
-                            case 3:
-                                arrow[i + j].getPoints().setAll(
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() ,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY()+ arrowDistance * vertex[i + j].getRadius(),
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() + vertex[i + j].getRadius() * arrowWidth,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowLength,
-
-                                        vertex[graph.getVertex(i + j, k)].getCenterX() - vertex[i + j].getRadius() * arrowWidth,
-                                        vertex[graph.getVertex(i + j, k)].getCenterY() + vertex[i + j].getRadius() * arrowLength
-
-                                );
-                                break;
-                        }
-                        arrow[i + j].setFill((Color.valueOf(graph.getColorOfWeight(i + j, k))));
-
-                        mainPane.getChildren().add(arrow[i+j]);
-                        mainPane.getChildren().add(connection[i+j]);
-
-
-                    }
-                }
-            }
-        }
-    }
     public void generateGraph(){
         if(mode != 0) {
             submitGraphSpecs();
             isGraphGenerated = true;
-            graph.initializeGraph(rowsN,colsN,minN,maxN,mode);
+            graph.initializeGraph(graph.getRowsN(), graph.getColumnsN(), graph.getMinWeightN(), graph.getMaxWeightN(), mode);
             standardOutput.appendText("Generowanie grafu!\nWlasciwosci:\n");
             switch (graph.getMode()) {
                 case 1 -> {
@@ -351,7 +164,7 @@ public class HelloController {
                 }
                 default -> standardOutput.appendText("\nBlad trybu\n");
             }
-            drawGraph();
+            Display.drawGraph(mainPane, graph);
             standardOutput.appendText("Wiersze: "+graph.getRows()+"\n");
             standardOutput.appendText("Kolumny: "+graph.getColumns()+"\n");
             standardOutput.appendText("Dolny zakres: "+graph.getMinWeight()+"\n");
