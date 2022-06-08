@@ -8,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static javafx.scene.paint.Color.GREEN;
 import static javafx.scene.paint.Color.RED;
@@ -63,6 +64,7 @@ public class HelloController {
 
 
 
+
     public void setRandWeightMode(){
         mode = Display.setModeCheckList(randWeightModeCheckBox, allRandModeCheckBox, conModeCheckBox, 1);
     }
@@ -96,11 +98,15 @@ public class HelloController {
             clickableCircle[endDijkstra].setRedColor();
             isDijkstraUsed = true;
             isGraphicalDijkstraUsed = true;
+            startLabel.setText(String.valueOf(startDijkstra));
+            endLabel.setText(String.valueOf(endDijkstra));
         }
-        else
+        else {
             standardOutput.appendText("Nie zaznaczyłeś wierzchołków!\n");
-        startLabel.setText(String.valueOf(startDijkstra));
-        endLabel.setText(String.valueOf(endDijkstra));
+
+
+        }
+
     }
 
     void submitDijkstraPoints(){
@@ -194,8 +200,10 @@ public class HelloController {
             isDijkstraUsed = true;
             clickableCircle = Display.drawGraph(mainPane, graph, startDijkstra, endDijkstra,
                     standardOutput, colorWeightCheckBox, onlyPathCheckBox);
-            ClickableCircle.isRedChosen = false;
-            ClickableCircle.isGreenChosen = false;
+            clickableCircle[startDijkstra].setGreenColor();
+            clickableCircle[endDijkstra].setRedColor();
+            ClickableCircle.isRedChosen = true;
+            ClickableCircle.isGreenChosen = true;
             startLabel.setText(String.valueOf(startDijkstra));
             endLabel.setText(String.valueOf(endDijkstra));
 
@@ -222,6 +230,8 @@ public class HelloController {
             if(FileManager.readFile(path,graph) == 0){
                 standardOutput.appendText("Udalo sie wczytac graf!\n");
                 isGraphGenerated = true;
+                clickableCircle = Display.drawGraph(mainPane, graph, justDrawGraph, justDrawGraph,
+                        standardOutput, colorWeightCheckBox, onlyPathCheckBox);
             }
             else{
                 standardOutput.appendText("Nie udalo sie wczytac grafu!\n");
@@ -240,6 +250,13 @@ public class HelloController {
         }
         else
             standardOutput.appendText("Nie wygenerowano grafu!\n");
+    }
+
+    public void saveGraphToFile() throws IOException {
+        if(isGraphGenerated)
+            FileManager.saveGraph(graph, standardOutput);
+        else
+            standardOutput.appendText("Nie udało się zapisać grafu!");
     }
 
 

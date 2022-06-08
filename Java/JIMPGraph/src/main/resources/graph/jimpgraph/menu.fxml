@@ -35,7 +35,7 @@
       <Text fill="WHITE" layoutX="476.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyświetlanie" />
       <Button layoutX="445.0" layoutY="545.0" mnemonicParsing="false" onAction="#runBfs" prefHeight="25.0" prefWidth="130.0" text="Badanie spójności" />
       <Button layoutX="444.0" layoutY="500.0" mnemonicParsing="false" onAction="#readGraph" text="Wczytaj" />
-      <Button layoutX="516.0" layoutY="500.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
+      <Button layoutX="516.0" layoutY="500.0" mnemonicParsing="false" onAction="#saveGraphToFile" prefHeight="25.0" prefWidth="58.0" text="Zapisz" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="25.0" layoutX="14.0" layoutY="389.0" stroke="BLACK" strokeType="INSIDE" width="400.0">
          <fill>
             <LinearGradient>

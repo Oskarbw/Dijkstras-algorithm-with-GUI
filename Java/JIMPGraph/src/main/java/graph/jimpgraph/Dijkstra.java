@@ -27,6 +27,7 @@ public class Dijkstra {
     static PriorityQueue<Integer> pQueue;
     private static double[] pathLength;
 
+
     public static double getPathLength(int a){
         return pathLength[a];
     }
