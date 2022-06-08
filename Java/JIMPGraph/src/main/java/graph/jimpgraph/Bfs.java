@@ -7,6 +7,17 @@ public class Bfs {
     static int[] vertexState;
 
     public static int BFS(Graph graph, int startingVertex){
+        int isGraphCon = 1;
+        for (int i=0;i < graph.getRows() * graph.getColumns();i++){
+            if (singleBFS(graph,i)==0){
+                isGraphCon = 0;
+                break;
+            }
+        }
+        return isGraphCon;
+    }
+
+    private static int singleBFS(Graph graph, int startingVertex){
         int n = graph.getColumns()*graph.getRows();
         queue = new LinkedList<>();
         vertexState = new int[n];
