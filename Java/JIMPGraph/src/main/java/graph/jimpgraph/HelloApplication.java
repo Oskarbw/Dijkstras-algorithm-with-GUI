@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -18,7 +19,16 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
+    public static void main(String[] args) throws FileNotFoundException {
+
+        if(args[0] != null ){
+            if(args[0].equals("test")){
+                System.out.println("Testy uruchomione...");
+                Test.allTests();
+            }
+        }
+
+
+        launch(args);
     }
 }

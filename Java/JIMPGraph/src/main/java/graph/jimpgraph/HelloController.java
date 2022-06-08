@@ -1,6 +1,7 @@
 package graph.jimpgraph;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
@@ -42,6 +43,14 @@ public class HelloController {
     TextField readFileTextField;
     @FXML
     AnchorPane mainPane;
+    @FXML
+    Label startLabel;
+    @FXML
+     Label endLabel;
+    @FXML
+     Label pathLabel;
+    @FXML
+     Label fileLabel;
 
     ClickableCircle[] clickableCircle;
     Graph graph = new Graph();
@@ -90,6 +99,8 @@ public class HelloController {
         }
         else
             standardOutput.appendText("Nie zaznaczyłeś wierzchołków!\n");
+        startLabel.setText(String.valueOf(startDijkstra));
+        endLabel.setText(String.valueOf(endDijkstra));
     }
 
     void submitDijkstraPoints(){
@@ -185,6 +196,10 @@ public class HelloController {
                     standardOutput, colorWeightCheckBox, onlyPathCheckBox);
             ClickableCircle.isRedChosen = false;
             ClickableCircle.isGreenChosen = false;
+            startLabel.setText(String.valueOf(startDijkstra));
+            endLabel.setText(String.valueOf(endDijkstra));
+
+
         }
         else
             standardOutput.appendText("Nie wygenerowano grafu!\n");
@@ -194,10 +209,12 @@ public class HelloController {
         getPathToGraphTextField.setVisible(true);
         readFileTextField.setVisible(true);
         readFileTextField.setEditable(true);
+
     }
 
     public void submitPath(){
         String path = readFileTextField.getText();
+        fileLabel.setText(path);
         readFileTextField.setVisible(false);
         readFileTextField.setEditable(false);
         getPathToGraphTextField.setVisible(false);
@@ -224,4 +241,6 @@ public class HelloController {
         else
             standardOutput.appendText("Nie wygenerowano grafu!\n");
     }
+
+
 }

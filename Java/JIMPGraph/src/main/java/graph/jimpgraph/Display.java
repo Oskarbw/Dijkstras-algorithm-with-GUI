@@ -264,6 +264,7 @@ public class Display extends HelloController{
         if(a == -1 || b == -1){
             return vertex;
         }
+
         LinkedList<Integer> path;
         if(Dijkstra.dijkstra(graph, a, b)!=null) {
             path = Dijkstra.dijkstra(graph, a, b);

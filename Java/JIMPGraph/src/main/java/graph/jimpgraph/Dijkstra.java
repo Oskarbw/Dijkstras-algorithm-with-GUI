@@ -16,7 +16,8 @@ class TheComparator implements Comparator<Integer> {
         else if (Dijkstra.getPathLength(a)==Dijkstra.getPathLength(b)){
             return 0;
         }
-        else return -99;
+
+        return 0;
     }
 }
 
